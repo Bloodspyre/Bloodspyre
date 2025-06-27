@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@Bloodspyre</title>
+    <!-- Load Font Awesome CSS first -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Rajdhani:wght@500;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none !important; /* Disable default cursor */
+        }
+        
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: #0a0a0a;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Custom bomb cursor */
+        .custom-cursor {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            font-size: 24px;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s ease;
+            text-shadow: 0 0 10px rgba(255, 50, 50, 0.7);
+            animation: bomb-pulse 0.5s infinite alternate;
+        }
+        
+        @keyframes bomb-pulse {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            100% { transform: translate(-50%, -50%) scale(1.1); }
+        }
+        
+        /* Explosion particles that follow cursor */
+        .explosion-particle {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle, #ff6600, #ff3300);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            animation: explode 1s forwards;
+            box-shadow: 0 0 10px 2px rgba(255, 100, 0, 0.7);
+        }
+        
+        @keyframes explode {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0);
+                opacity: 0;
+            }
+        }
+        
+        #video-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: -2;
+        }
+        
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(0, 20, 40, 0.4) 0%, rgba(10, 10, 20, 0.5) 100%);
+            z-index: -1;
+        }
+        
+        /* Snowflakes */
+        .snow {
+            position: absolute;
+            top: -10px;
+            z-index: 0;
+            color: rgba(255, 255, 255, 0.7);
+            pointer-events: none;
+            user-select: none;
+            animation: fall linear infinite;
+            font-size: 8px;
+        }
+        
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+        
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 713px;
+            height: 500px;
+            perspective: 1000px;
+        }
+        
+        .profile-card {
+            background: rgba(5, 5, 10, 0.25);
+            border-radius: 16px;
+            padding: 30px;
+            width: 100%;
+            height: 100%;
+            box-shadow: 0 10px 30px rgba(0, 89, 255, 0.1);
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            backdrop-filter: blur(5px);
+            display: flex;
+            flex-direction: column;
+            transform-style: preserve-3d;
+            transition: all 0.5s ease;
+        }
+        
+        .profile-card:hover {
+            transform: translateY(-5px) rotateX(1deg) rotateY(1deg);
+            box-shadow: 0 15px 40px rgba(0, 89, 255, 0.15);
+            background: rgba(10, 10, 20, 0.35);
+        }
+        
+        .profile-content {
+            display: flex;
+            flex: 1;
+            gap: 30px;
+        }
+        
+        .profile-left {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 200px;
+        }
+        
+        .profile-pic {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 3px solid rgba(100, 150, 255, 0.4);
+            box-shadow: 0 5px 20px rgba(100, 150, 255, 0.2);
+            transition: all 0.5s ease;
+            background: rgba(10, 10, 20, 0.2);
+            transform: translateZ(20px);
+        }
+        
+        .profile-pic:hover {
+            transform: scale(1.05) translateZ(30px);
+            box-shadow: 0 8px 25px rgba(100, 150, 255, 0.3);
+        }
+        
+        .profile-right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .gamer-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #ffffff;
+            letter-spacing: 1px;
+            background: linear-gradient(90deg, #64b5f6, #1976d2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            transform: translateZ(10px);
+            height: 40px;
+            overflow: hidden;
+        }
+        
+        .gamer-tag {
+            font-size: 1rem;
+            color: #e0e0e0;
+            margin-bottom: 20px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+        
+        .stat {
+            text-align: center;
+            padding: 0 15px;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #64b5f6;
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .stat-label {
+            font-size: 0.75rem;
+            color: #e0e0e0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        .profile-description {
+            background: rgba(10, 15, 25, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            border: 1px solid rgba(100, 150, 255, 0.1);
+            flex-grow: 1;
+            overflow-y: auto;
+            max-height: 150px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(100, 150, 255, 0.3) transparent;
+        }
+        
+        .profile-description::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .profile-description::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .profile-description::-webkit-scrollbar-thumb {
+            background-color: rgba(100, 150, 255, 0.3);
+            border-radius: 3px;
+        }
+        
+        .profile-description p {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #d0d0d0;
+            margin-bottom: 10px;
+        }
+        
+        .profile-description strong {
+            color: #64b5f6;
+            font-weight: 600;
+        }
+        
+        .description-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+        
+        .bullet {
+            color: #64b5f6;
+            margin-right: 8px;
+            font-size: 0.7rem;
+            line-height: 1.5;
+            margin-top: 3px;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 20px;
+            padding-top: 20px;
+        }
+        
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(100, 150, 255, 0.1);
+            color: #64b5f6;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            backdrop-filter: blur(2px);
+            transform: translateZ(10px);
+        }
+        
+        .social-link:hover {
+            background: rgba(100, 150, 255, 0.2);
+            transform: translateY(-3px) translateZ(20px);
+            box-shadow: 0 5px 15px rgba(100, 150, 255, 0.15);
+            color: #ffffff;
+        }
+        
+        .social-link.facebook:hover {
+            background: rgba(59, 89, 152, 0.2);
+            color: #3b5998;
+        }
+        
+        .social-link.instagram:hover {
+            background: rgba(225, 48, 108, 0.2);
+            color: #E1306C;
+        }
+        
+        .social-link.twitter:hover {
+            background: rgba(29, 161, 242, 0.2);
+            color: #1DA1F2;
+        }
+        
+        .social-link.discord:hover {
+            background: rgba(114, 137, 218, 0.2);
+            color: #7289DA;
+        }
+        
+        .social-link.teamspeak:hover {
+            background: rgba(74, 111, 165, 0.2);
+            color: #4A6FA5;
+        }
+        
+        .audio-control {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(10, 10, 20, 0.4);
+            border: 1px solid rgba(100, 150, 255, 0.3);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64b5f6;
+            z-index: 100;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .audio-control:hover {
+            background: rgba(100, 150, 255, 0.15);
+            color: #ffffff;
+            transform: scale(1.1);
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(100, 150, 255, 0.2);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .click-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        
+        .click-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .click-content {
+            text-align: center;
+            transform: scale(1);
+            transition: transform 0.3s ease;
+        }
+        
+        .click-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #64b5f6, #1976d2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: zoomIn 0.5s ease-out forwards;
+        }
+        
+        .click-subtext {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.2rem;
+            color: #e0e0e0;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out 0.3s forwards;
+        }
+        
+        .click-icon {
+            font-size: 2rem;
+            color: #64b5f6;
+            opacity: 0;
+            animation: bounceIn 0.5s ease-out 0.6s forwards, bounce 2s infinite 1.1s;
+        }
+        
+        @keyframes zoomIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 0.8; transform: translateY(0); }
+        }
+        
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.3); }
+            50% { opacity: 1; transform: scale(1.1); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
+        }
+        
+        .typing-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.5rem;
+            background: #64b5f6;
+            margin-left: 2px;
+            animation: blink 0.7s infinite;
+            vertical-align: middle;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        @media (max-width: 750px) {
+            .container {
+                width: 95%;
+                height: auto;
+                min-height: 500px;
+            }
+            
+            .profile-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .profile-left {
+                width: 100%;
+            }
+            
+            .gamer-name {
+                text-align: center;
+            }
+            
+            .gamer-tag {
+                text-align: center;
+            }
+            
+            .audio-control {
+                top: 15px;
+                left: 15px;
+                width: 38px;
+                height: 38px;
+            }
+            
+            .click-text {
+                font-size: 2rem;
+            }
+            
+            .click-subtext {
+                font-size: 1rem;
+            }
+            
+            .profile-description {
+                max-height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <video id="video-bg" autoplay muted loop playsinline>
+        <source src="https://sharks.ro/skyness/hichemajm.mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+    <div class="video-overlay"></div>
+    
+    <!-- Custom bomb cursor -->
+    <div class="custom-cursor" id="customCursor">💣</div>
+    
+    <!-- Click Interface Overlay -->
+    <div class="click-overlay" id="clickOverlay">
+        <div class="click-content">
+            <div class="click-text">WELCOME</div>
+            <div class="click-subtext">TO MY PROFILE</div>
+            <div class="click-icon">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Audio Control - Now at top left -->
+    <div class="audio-control" id="audioControl">
+        <i class="fas fa-volume-mute"></i>
+    </div>
+    
+    <!-- Snowflakes will be generated here by JavaScript -->
+    <div id="snow-container"></div>
+    
+    <!-- Particles will be generated here -->
+    <div id="particles"></div>
+    
+    <div class="container">
+        <div class="profile-card">
+            <div class="profile-content">
+                <div class="profile-left">
+                    <img src="https://i.ibb.co/TBmqLz9d/496873927-17866707426383012-4083310942673646977-n.jpg" alt="Profile Picture" class="profile-pic">
+                    <h1 class="gamer-name" id="typing-name"></h1>
+                    <p class="gamer-tag">Gamer | Developer | Tech Enthusiast</p>
+                </div>
+                
+                <div class="profile-right">
+                    <div class="stats">
+                        <div class="stat">
+                            <div class="stat-value">10+</div>
+                            <div class="stat-label">Years Gaming</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">100%</div>
+                            <div class="stat-label">Dedication</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">24/7</div>
+                            <div class="stat-label">Availability</div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-description">
+                        <div class="description-item">
+                            <span class="bullet">◉</span>
+                            <div class="description-text">
+                                <strong>Gaming Specialist:</strong> Competitive FPS player with a passion for tactical shooters and battle royales. Top rankings in multiple esports titles.
+                            </div>
+                        </div>
+                        <div class="description-item">
+                            <span class="bullet">◉</span>
+                            <div class="description-text">
+                                <strong>Tech Expert:</strong> Full-stack developer specializing in gaming-related applications and performance optimization.
+                            </div>
+                        </div>
+                        <div class="description-item">
+                            <span class="bullet">◉</span>
+                            <div class="description-text">
+                                <strong>Community Leader:</strong> Founder of gaming clans and mentor to new players. Believer in positive gaming communities.
+                            </div>
+                        </div>
+                        <div class="description-item">
+                            <span class="bullet">◉</span>
+                            <div class="description-text">
+                                <strong>Hardware Enthusiast:</strong> Custom PC builder with expertise in high-performance gaming rigs and streaming setups.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/hichem.adjimi.2025/" class="social-link facebook" target="_blank">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/hichemajm22/" class="social-link instagram" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link twitter" target="_blank">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://discordapp.com/users/604491708780249109" class="social-link discord" target="_blank">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                        <a href="javascript:void(0)" class="social-link teamspeak" onclick="connectTeamSpeak()">
+                            <i class="fab fa-teamspeak"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Anti-inspect code
+        function preventInspect() {
+            // Disable right click
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                showAntiInspectMessage();
+            });
+            
+            // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C, Ctrl+U
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'F12' || 
+                    (e.ctrlKey && e.shiftKey && e.key === 'I') || 
+                    (e.ctrlKey && e.shiftKey && e.key === 'J') || 
+                    (e.ctrlKey && e.shiftKey && e.key === 'C') || 
+                    (e.ctrlKey && e.key === 'U')) {
+                    e.preventDefault();
+                    showAntiInspectMessage();
+                }
+            });
+            
+            // Prevent opening dev tools by other methods
+            function detectDevTools() {
+                const widthThreshold = window.outerWidth - window.innerWidth > 160;
+                const heightThreshold = window.outerHeight - window.innerHeight > 160;
+                
+                if ((widthThreshold || heightThreshold) && !window.debugging) {
+                    showAntiInspectMessage();
+                    document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#000;color:#fff;font-family:Arial;"><h1>Developer Tools Detected</h1></div>';
+                    window.location.reload();
+                }
+            }
+            
+            setInterval(detectDevTools, 1000);
+        }
+        
+        function showAntiInspectMessage() {
+            const notification = document.createElement('div');
+            notification.style.position = 'fixed';
+            notification.style.bottom = '20px';
+            notification.style.right = '20px';
+            notification.style.background = 'rgba(255, 0, 0, 0.8)';
+            notification.style.color = 'white';
+            notification.style.padding = '15px';
+            notification.style.borderRadius = '8px';
+            notification.style.zIndex = '10000';
+            notification.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.3)';
+            notification.style.transform = 'translateY(30px)';
+            notification.style.opacity = '0';
+            notification.style.transition = 'all 0.3s ease';
+            notification.innerHTML = '<i class="fas fa-lock"></i> Developer tools are disabled for this page';
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateY(0)';
+                notification.style.opacity = '1';
+            }, 10);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateY(30px)';
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+        
+        // Enhanced snow effect with smaller, more subtle flakes
+        function createSnow() {
+            const snowContainer = document.getElementById('snow-container');
+            const snowflakes = ['❄', '❅', '❆', '✻', '✼', '✽', '✾', '❄', '❅', '❆'];
+            
+            for (let i = 0; i < 60; i++) {
+                const snow = document.createElement('div');
+                snow.className = 'snow';
+                snow.innerHTML = snowflakes[Math.floor(Math.random() * snowflakes.length)];
+                
+                // Random positioning
+                snow.style.left = Math.random() * 100 + 'vw';
+                snow.style.opacity = Math.random() * 0.7 + 0.3;
+                snow.style.fontSize = (Math.random() * 6 + 4) + 'px';
+                
+                // Animation with different speeds
+                const animationDuration = Math.random() * 15 + 10;
+                snow.style.animationDuration = `${animationDuration}s`;
+                snow.style.animationDelay = Math.random() * 5 + 's';
+                
+                // Random horizontal movement
+                const horizontalMovement = Math.random() * 100 - 50;
+                snow.style.transform = `translateX(${horizontalMovement}px)`;
+                
+                snowContainer.appendChild(snow);
+            }
+        }
+        
+        // Floating particles effect
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const colors = ['rgba(100, 150, 255, 0.1)', 'rgba(100, 200, 255, 0.08)', 'rgba(150, 100, 255, 0.08)'];
+            
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Random properties
+                const size = Math.random() * 6 + 3;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.opacity = Math.random() * 0.5 + 0.3;
+                
+                // Random positioning
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.top = Math.random() * 100 + 'vh';
+                
+                // Animation
+                const duration = Math.random() * 30 + 15;
+                particle.style.animation = `float ${duration}s linear infinite`;
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                
+                particlesContainer.appendChild(particle);
+            }
+            
+            // Add CSS for particle animation
+            const style = document.createElement('style');
+            style.innerHTML = `
+                @keyframes float {
+                    0% {
+                        transform: translate(0, 0) rotate(0deg);
+                        opacity: 0.5;
+                    }
+                    50% {
+                        transform: translate(${Math.random() * 40 - 20}px, ${Math.random() * 40 - 20}px) rotate(180deg);
+                        opacity: 0.3;
+                    }
+                    100% {
+                        transform: translate(0, 0) rotate(360deg);
+                        opacity: 0.5;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        // Custom bomb cursor with explosion trail effect
+        function setupCustomCursor() {
+            const cursor = document.getElementById('customCursor');
+            let lastX = 0;
+            let lastY = 0;
+            let lastTime = 0;
+            const explosionInterval = 50; // milliseconds between explosions
+            let lastExplosionTime = 0;
+            
+            document.addEventListener('mousemove', (e) => {
+                const now = Date.now();
+                cursor.style.left = `${e.clientX}px`;
+                cursor.style.top = `${e.clientY}px`;
+                
+                // Calculate speed
+                const deltaX = e.clientX - lastX;
+                const deltaY = e.clientY - lastY;
+                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                const deltaTime = now - lastTime;
+                const speed = distance / deltaTime;
+                
+                // Create explosion trail when moving fast enough
+                if (now - lastExplosionTime > explosionInterval && speed > 0.1) {
+                    createExplosion(e.clientX, e.clientY, deltaX, deltaY, speed);
+                    lastExplosionTime = now;
+                }
+                
+                lastX = e.clientX;
+                lastY = e.clientY;
+                lastTime = now;
+            });
+            
+            function createExplosion(x, y, deltaX, deltaY, speed) {
+                // Create multiple explosion particles
+                const particleCount = 3 + Math.floor(speed / 5);
+                
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'explosion-particle';
+                    
+                    // Position particle slightly behind cursor
+                    particle.style.left = `${x - deltaX * 0.1}px`;
+                    particle.style.top = `${y - deltaY * 0.1}px`;
+                    
+                    // Calculate random direction based on movement
+                    const angle = Math.atan2(deltaY, deltaX);
+                    const randomAngle = angle + (Math.random() * 1.5 - 0.75);
+                    const distance = 10 + Math.random() * 30;
+                    
+                    // Set CSS variables for animation
+                    particle.style.setProperty('--tx', `${Math.cos(randomAngle) * distance}px`);
+                    particle.style.setProperty('--ty', `${Math.sin(randomAngle) * distance}px`);
+                    
+                    // Random size
+                    const size = 5 + Math.random() * 10;
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    
+                    // Random color variation
+                    const hue = 20 + Math.random() * 20; // Orange-red range
+                    particle.style.background = `radial-gradient(circle, hsl(${hue}, 100%, 60%), hsl(${hue}, 100%, 40%))`;
+                    
+                    document.body.appendChild(particle);
+                    
+                    // Remove after animation completes
+                    setTimeout(() => {
+                        particle.remove();
+                    }, 1000);
+                }
+            }
+        }
+        
+        // TeamSpeak connection function
+        function connectTeamSpeak() {
+            const tsAddress = "ts3server://Skyness";
+            
+            // Try to launch TeamSpeak directly with ts3server protocol
+            window.location.href = tsAddress;
+            
+            // Fallback to regular teamspeak:// protocol if needed
+            setTimeout(() => {
+                window.location.href = `teamspeak://Skyness?port=12673`;
+            }, 100);
+            
+            // Final fallback to TeamSpeak download page
+            setTimeout(() => {
+                window.open(`https://www.teamspeak.com/en/download/`, '_blank');
+            }, 500);
+            
+            // Show notification
+            const notification = document.createElement('div');
+            notification.style.position = 'fixed';
+            notification.style.bottom = '20px';
+            notification.style.right = '20px';
+            notification.style.background = 'rgba(20, 30, 50, 0.8)';
+            notification.style.color = 'white';
+            notification.style.padding = '15px';
+            notification.style.borderRadius = '8px';
+            notification.style.borderLeft = '4px solid rgba(74, 111, 165, 0.7)';
+            notification.style.zIndex = '1000';
+            notification.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
+            notification.style.transform = 'translateY(30px)';
+            notification.style.opacity = '0';
+            notification.style.transition = 'all 0.3s ease';
+            notification.innerHTML = `
+                <p style="margin-bottom: 8px; font-weight: 600;">Connecting to TeamSpeak server:</p>
+                <p style="font-family: monospace;">Skyness</p>
+            `;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateY(0)';
+                notification.style.opacity = '1';
+            }, 10);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateY(30px)';
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+        
+        // Audio control for video background
+        const videoBg = document.getElementById('video-bg');
+        const audioControl = document.getElementById('audioControl');
+        let isMuted = true;
+        
+        // Initialize video with muted audio (autoplay requires muted on most browsers)
+        videoBg.muted = true;
+        
+        audioControl.addEventListener('click', () => {
+            if (isMuted) {
+                videoBg.muted = false;
+                audioControl.innerHTML = '<i class="fas fa-volume-up"></i>';
+                audioControl.style.color = '#64b5f6';
+                
+                // Try to play the video (required for some mobile browsers)
+                videoBg.play().catch(e => {
+                    console.log("Video playback failed:", e);
+                });
+            } else {
+                videoBg.muted = true;
+                audioControl.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                audioControl.style.color = '#ff6b6b';
+            }
+            isMuted = !isMuted;
+            
+            // Pulse animation for audio control
+            audioControl.style.animation = 'pulse 0.5s ease';
+            setTimeout(() => {
+                audioControl.style.animation = '';
+            }, 500);
+        });
+        
+        // Add pulse animation for audio control
+        const pulseStyle = document.createElement('style');
+        pulseStyle.innerHTML = `
+            @keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.2); }
+                100% { transform: scale(1); }
+            }
+        `;
+        document.head.appendChild(pulseStyle);
+        
+        // Enhanced 3D parallax effect
+        document.addEventListener('mousemove', (e) => {
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+            const card = document.querySelector('.profile-card');
+            card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg) translateY(-5px)`;
+        });
+        
+        // Reset card position when mouse leaves
+        document.querySelector('.container').addEventListener('mouseleave', () => {
+            const card = document.querySelector('.profile-card');
+            card.style.transform = 'rotateY(0deg) rotateX(0deg)';
+        });
+        
+        // Click overlay handler - Faster transition
+        const clickOverlay = document.getElementById('clickOverlay');
+        clickOverlay.addEventListener('click', () => {
+            // Add animation to click overlay
+            clickOverlay.querySelector('.click-content').style.transform = 'scale(0.9)';
+            
+            setTimeout(() => {
+                clickOverlay.classList.add('hidden');
+                videoBg.muted = false;
+                isMuted = false;
+                audioControl.innerHTML = '<i class="fas fa-volume-up"></i>';
+                audioControl.style.color = '#64b5f6';
+                
+                videoBg.play().then(() => {
+                    // Pulse animation for audio control
+                    audioControl.style.animation = 'pulse 0.5s ease';
+                    setTimeout(() => {
+                        audioControl.style.animation = '';
+                    }, 500);
+                }).catch(e => {
+                    console.log("Video playback failed:", e);
+                    audioControl.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                    audioControl.style.color = '#ff6b6b';
+                    isMuted = true;
+                    videoBg.muted = true;
+                });
+            }, 150);
+        });
+        
+        // Typing animation for the name
+        function typeWriter(element, text, speed, delay = 0) {
+            let i = 0;
+            let isDeleting = false;
+            let typingSpeed = speed;
+            
+            setTimeout(() => {
+                function type() {
+                    const currentText = text.substring(0, i);
+                    element.innerHTML = currentText + '<span class="typing-cursor"></span>';
+                    
+                    if (!isDeleting) {
+                        i++;
+                        if (i > text.length) {
+                            isDeleting = true;
+                            typingSpeed = speed * 2;
+                            setTimeout(type, 1000);
+                            return;
+                        }
+                    } else {
+                        i--;
+                        if (i === 0) {
+                            isDeleting = false;
+                            typingSpeed = speed;
+                        }
+                    }
+                    
+                    setTimeout(type, typingSpeed);
+                }
+                
+                type();
+            }, delay);
+        }
+        
+        // Initialize effects when page loads
+        window.onload = function() {
+            // Activate anti-inspect protection
+            preventInspect();
+            
+            createSnow();
+            createParticles();
+            setupCustomCursor();
+            
+            // Start typing animation for the name
+            const nameElement = document.getElementById('typing-name');
+            typeWriter(nameElement, "Bloodspyre", 100, 300);
+            
+            // Make sure video covers entire viewport
+            function resizeVideo() {
+                const video = document.getElementById('video-bg');
+                const videoRatio = video.videoWidth / video.videoHeight;
+                const windowRatio = window.innerWidth / window.innerHeight;
+                
+                if (windowRatio > videoRatio) {
+                    video.style.width = '100vw';
+                    video.style.height = 'auto';
+                } else {
+                    video.style.width = 'auto';
+                    video.style.height = '100vh';
+                }
+            }
+            
+            // Set initial size and add resize listener
+            videoBg.addEventListener('loadedmetadata', resizeVideo);
+            window.addEventListener('resize', resizeVideo);
+            
+            // Obfuscate the source code further
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'u' && e.ctrlKey) {
+                    e.preventDefault();
+                    showAntiInspectMessage();
+                }
+            });
+        };
+        
+        // Additional obfuscation - disable text selection
+        document.addEventListener('selectstart', function(e) {
+            e.preventDefault();
+        });
+        
+        // Disable drag and drop
+        document.addEventListener('dragstart', function(e) {
+            e.preventDefault();
+        });
+    </script>
+</body>
+</html>
