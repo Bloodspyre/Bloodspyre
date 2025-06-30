@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@Bloodspyre</title>
-    <!-- Load Font Awesome CSS first -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Rajdhani:wght@500;600&display=swap');
@@ -28,46 +27,25 @@
             overflow: hidden;
         }
         
-        /* Custom bomb cursor */
+        /* Custom scope cursor */
         .custom-cursor {
             position: fixed;
             pointer-events: none;
             z-index: 9999;
-            font-size: 24px;
+            font-size: 24px; /* Adjust size as needed */
+            color: #00ff00; /* Green for a techy scope feel */
+            text-shadow: 0 0 8px rgba(0, 255, 0, 0.6), 0 0 15px rgba(0, 255, 0, 0.4);
             transform: translate(-50%, -50%);
-            transition: transform 0.1s ease;
-            text-shadow: 0 0 10px rgba(255, 50, 50, 0.7);
-            animation: bomb-pulse 0.5s infinite alternate;
+            transition: transform 0.1s ease, color 0.3s ease;
+            animation: scope-scan 2s infinite linear; /* Added a subtle scan animation */
         }
-        
-        @keyframes bomb-pulse {
-            0% { transform: translate(-50%, -50%) scale(1); }
-            100% { transform: translate(-50%, -50%) scale(1.1); }
+
+        @keyframes scope-scan {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
         }
-        
-        /* Explosion particles that follow cursor */
-        .explosion-particle {
-            position: fixed;
-            width: 8px;
-            height: 8px;
-            background: radial-gradient(circle, #ff6600, #ff3300);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9998;
-            animation: explode 1s forwards;
-            box-shadow: 0 0 10px 2px rgba(255, 100, 0, 0.7);
-        }
-        
-        @keyframes explode {
-            0% {
-                transform: translate(0, 0) scale(1);
-                opacity: 1;
-            }
-            100% {
-                transform: translate(var(--tx), var(--ty)) scale(0);
-                opacity: 0;
-            }
-        }
+
+        /* No explosion particles CSS needed as they are removed */
         
         #video-bg {
             position: fixed;
@@ -515,10 +493,10 @@
     </video>
     <div class="video-overlay"></div>
     
-    <!-- Custom bomb cursor -->
-    <div class="custom-cursor" id="customCursor">💣</div>
+    <div class="custom-cursor" id="customCursor">
+        <i class="fas fa-crosshairs"></i> 
+    </div>
     
-    <!-- Click Interface Overlay -->
     <div class="click-overlay" id="clickOverlay">
         <div class="click-content">
             <div class="click-text">WELCOME</div>
@@ -529,15 +507,12 @@
         </div>
     </div>
     
-    <!-- Audio Control - Now at top left -->
     <div class="audio-control" id="audioControl">
         <i class="fas fa-volume-mute"></i>
     </div>
     
-    <!-- Snowflakes will be generated here by JavaScript -->
     <div id="snow-container"></div>
     
-    <!-- Particles will be generated here -->
     <div id="particles"></div>
     
     <div class="container">
@@ -756,76 +731,14 @@
             document.head.appendChild(style);
         }
         
-        // Custom bomb cursor with explosion trail effect
+        // Custom scope cursor setup
         function setupCustomCursor() {
             const cursor = document.getElementById('customCursor');
-            let lastX = 0;
-            let lastY = 0;
-            let lastTime = 0;
-            const explosionInterval = 50; // milliseconds between explosions
-            let lastExplosionTime = 0;
             
             document.addEventListener('mousemove', (e) => {
-                const now = Date.now();
                 cursor.style.left = `${e.clientX}px`;
                 cursor.style.top = `${e.clientY}px`;
-                
-                // Calculate speed
-                const deltaX = e.clientX - lastX;
-                const deltaY = e.clientY - lastY;
-                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-                const deltaTime = now - lastTime;
-                const speed = distance / deltaTime;
-                
-                // Create explosion trail when moving fast enough
-                if (now - lastExplosionTime > explosionInterval && speed > 0.1) {
-                    createExplosion(e.clientX, e.clientY, deltaX, deltaY, speed);
-                    lastExplosionTime = now;
-                }
-                
-                lastX = e.clientX;
-                lastY = e.clientY;
-                lastTime = now;
             });
-            
-            function createExplosion(x, y, deltaX, deltaY, speed) {
-                // Create multiple explosion particles
-                const particleCount = 3 + Math.floor(speed / 5);
-                
-                for (let i = 0; i < particleCount; i++) {
-                    const particle = document.createElement('div');
-                    particle.className = 'explosion-particle';
-                    
-                    // Position particle slightly behind cursor
-                    particle.style.left = `${x - deltaX * 0.1}px`;
-                    particle.style.top = `${y - deltaY * 0.1}px`;
-                    
-                    // Calculate random direction based on movement
-                    const angle = Math.atan2(deltaY, deltaX);
-                    const randomAngle = angle + (Math.random() * 1.5 - 0.75);
-                    const distance = 10 + Math.random() * 30;
-                    
-                    // Set CSS variables for animation
-                    particle.style.setProperty('--tx', `${Math.cos(randomAngle) * distance}px`);
-                    particle.style.setProperty('--ty', `${Math.sin(randomAngle) * distance}px`);
-                    
-                    // Random size
-                    const size = 5 + Math.random() * 10;
-                    particle.style.width = `${size}px`;
-                    particle.style.height = `${size}px`;
-                    
-                    // Random color variation
-                    const hue = 20 + Math.random() * 20; // Orange-red range
-                    particle.style.background = `radial-gradient(circle, hsl(${hue}, 100%, 60%), hsl(${hue}, 100%, 40%))`;
-                    
-                    document.body.appendChild(particle);
-                    
-                    // Remove after animation completes
-                    setTimeout(() => {
-                        particle.remove();
-                    }, 1000);
-                }
-            }
         }
         
         // TeamSpeak connection function
