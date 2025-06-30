@@ -4,11 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@Bloodspyre</title>
-    <!-- Load Font Awesome CSS first -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Rajdhani:wght@500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Rajdhani:wght@500;600;700&display=swap');
         
+        :root {
+            --primary-blue: #64b5f6;
+            --dark-blue: #1976d2;
+            --background-dark: #07070e;
+            --card-bg-light: rgba(10, 10, 25, 0.35);
+            --card-bg-dark: rgba(5, 5, 15, 0.25);
+            --border-blue: rgba(100, 150, 255, 0.2);
+            --shadow-blue: rgba(0, 89, 255, 0.15);
+            --text-light: #ffffff;
+            --text-medium: #e0e0e0;
+            --text-dark: #d0d0d0;
+            --explosion-gradient-start: #ff6600;
+            --explosion-gradient-end: #ff3300;
+            --glow-color: rgba(100, 150, 255, 0.4);
+            --glow-color-strong: rgba(100, 150, 255, 0.6);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -18,8 +34,8 @@
         
         body {
             font-family: 'Rajdhani', sans-serif;
-            background-color: #0a0a0a;
-            color: #ffffff;
+            background-color: var(--background-dark);
+            color: var(--text-light);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -33,16 +49,16 @@
             position: fixed;
             pointer-events: none;
             z-index: 9999;
-            font-size: 24px;
+            font-size: 28px; /* Slightly larger */
             transform: translate(-50%, -50%);
             transition: transform 0.1s ease;
-            text-shadow: 0 0 10px rgba(255, 50, 50, 0.7);
+            text-shadow: 0 0 15px rgba(255, 50, 50, 0.9); /* Stronger glow */
             animation: bomb-pulse 0.5s infinite alternate;
         }
         
         @keyframes bomb-pulse {
-            0% { transform: translate(-50%, -50%) scale(1); }
-            100% { transform: translate(-50%, -50%) scale(1.1); }
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.9; }
+            100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
         }
         
         /* Explosion particles that follow cursor */
@@ -50,12 +66,12 @@
             position: fixed;
             width: 8px;
             height: 8px;
-            background: radial-gradient(circle, #ff6600, #ff3300);
+            background: radial-gradient(circle, var(--explosion-gradient-start), var(--explosion-gradient-end));
             border-radius: 50%;
             pointer-events: none;
             z-index: 9998;
             animation: explode 1s forwards;
-            box-shadow: 0 0 10px 2px rgba(255, 100, 0, 0.7);
+            box-shadow: 0 0 12px 3px rgba(255, 100, 0, 0.8); /* Enhanced shadow */
         }
         
         @keyframes explode {
@@ -77,6 +93,7 @@
             height: 100vh;
             object-fit: cover;
             z-index: -2;
+            filter: brightness(0.8) contrast(1.2); /* Slightly muted, more contrast */
         }
         
         .video-overlay {
@@ -85,8 +102,15 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: linear-gradient(135deg, rgba(0, 20, 40, 0.4) 0%, rgba(10, 10, 20, 0.5) 100%);
+            background: linear-gradient(135deg, rgba(0, 15, 30, 0.6) 0%, rgba(5, 5, 15, 0.7) 100%); /* Darker, more intense overlay */
             z-index: -1;
+            opacity: 1;
+            animation: overlay-fade-in 2s forwards; /* Added fade-in for overlay */
+        }
+
+        @keyframes overlay-fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         
         /* Snowflakes */
@@ -94,11 +118,12 @@
             position: absolute;
             top: -10px;
             z-index: 0;
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.8); /* Slightly brighter */
             pointer-events: none;
             user-select: none;
             animation: fall linear infinite;
-            font-size: 8px;
+            font-size: 10px; /* Slightly larger */
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* Soft glow */
         }
         
         @keyframes fall {
@@ -116,55 +141,56 @@
         }
         
         .profile-card {
-            background: rgba(5, 5, 10, 0.25);
-            border-radius: 16px;
-            padding: 30px;
+            background: var(--card-bg-dark);
+            border-radius: 20px; /* More rounded */
+            padding: 40px; /* Increased padding */
             width: 100%;
             height: 100%;
-            box-shadow: 0 10px 30px rgba(0, 89, 255, 0.1);
-            border: 1px solid rgba(100, 150, 255, 0.2);
-            backdrop-filter: blur(5px);
+            box-shadow: 0 15px 45px rgba(0, 89, 255, 0.2); /* Deeper shadow */
+            border: 1px solid var(--border-blue);
+            backdrop-filter: blur(8px); /* Stronger blur */
             display: flex;
             flex-direction: column;
             transform-style: preserve-3d;
             transition: all 0.5s ease;
+            transform: translateZ(0); /* Ensure initial 3D context */
         }
         
         .profile-card:hover {
-            transform: translateY(-5px) rotateX(1deg) rotateY(1deg);
-            box-shadow: 0 15px 40px rgba(0, 89, 255, 0.15);
-            background: rgba(10, 10, 20, 0.35);
+            transform: translateY(-8px) rotateX(2deg) rotateY(2deg) translateZ(20px); /* More pronounced 3D tilt */
+            box-shadow: 0 20px 50px var(--shadow-blue);
+            background: var(--card-bg-light);
         }
         
         .profile-content {
             display: flex;
             flex: 1;
-            gap: 30px;
+            gap: 40px; /* Increased gap */
         }
         
         .profile-left {
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 200px;
+            width: 220px; /* Slightly wider */
         }
         
         .profile-pic {
-            width: 140px;
-            height: 140px;
+            width: 160px; /* Larger picture */
+            height: 160px;
             border-radius: 50%;
             object-fit: cover;
-            margin-bottom: 20px;
-            border: 3px solid rgba(100, 150, 255, 0.4);
-            box-shadow: 0 5px 20px rgba(100, 150, 255, 0.2);
+            margin-bottom: 25px;
+            border: 4px solid rgba(100, 150, 255, 0.6); /* Thicker, more vibrant border */
+            box-shadow: 0 0 25px rgba(100, 150, 255, 0.3); /* Stronger glow */
             transition: all 0.5s ease;
-            background: rgba(10, 10, 20, 0.2);
-            transform: translateZ(20px);
+            background: rgba(10, 10, 20, 0.3);
+            transform: translateZ(25px); /* Lift further */
         }
         
         .profile-pic:hover {
-            transform: scale(1.05) translateZ(30px);
-            box-shadow: 0 8px 25px rgba(100, 150, 255, 0.3);
+            transform: scale(1.08) translateZ(40px); /* More pronounced scale */
+            box-shadow: 0 0 35px rgba(100, 150, 255, 0.45), 0 0 50px rgba(100, 150, 255, 0.2); /* Enhanced glow */
         }
         
         .profile-right {
@@ -175,73 +201,73 @@
         
         .gamer-name {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
+            font-size: 2.2rem; /* Larger name */
             font-weight: 700;
-            margin-bottom: 8px;
-            color: #ffffff;
-            letter-spacing: 1px;
-            background: linear-gradient(90deg, #64b5f6, #1976d2);
+            margin-bottom: 10px;
+            color: var(--text-light);
+            letter-spacing: 2px; /* Increased letter spacing */
+            background: linear-gradient(90deg, #82b1ff, #42a5f5, #2196f3); /* More nuanced blue gradient */
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            transform: translateZ(10px);
-            height: 40px;
+            text-shadow: 0 0 10px rgba(0, 170, 255, 0.4); /* Blue glow */
+            transform: translateZ(15px);
+            height: 45px; /* Adjust height for larger font */
             overflow: hidden;
         }
         
         .gamer-tag {
-            font-size: 1rem;
-            color: #e0e0e0;
-            margin-bottom: 20px;
+            font-size: 1.1rem; /* Slightly larger tag */
+            color: var(--text-medium);
+            margin-bottom: 25px; /* More space below */
             font-weight: 500;
-            letter-spacing: 0.5px;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px; /* Increased letter spacing */
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
         }
         
         .stats {
             display: flex;
             justify-content: space-around;
-            margin: 20px 0;
+            margin: 25px 0; /* More vertical space */
         }
         
         .stat {
             text-align: center;
-            padding: 0 15px;
+            padding: 0 20px; /* Increased padding */
         }
         
         .stat-value {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: #64b5f6;
+            font-size: 2rem; /* Larger stat values */
+            font-weight: 700; /* Bolder */
+            color: var(--primary-blue);
             font-family: 'Orbitron', sans-serif;
-            margin-bottom: 5px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 8px; /* More space below value */
+            text-shadow: 0 0 8px rgba(100, 150, 255, 0.5); /* Blue glow */
         }
         
         .stat-label {
-            font-size: 0.75rem;
-            color: #e0e0e0;
+            font-size: 0.85rem; /* Slightly larger label */
+            color: var(--text-medium);
             text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 500;
+            letter-spacing: 1.5px; /* More spacing */
+            font-weight: 600; /* Bolder label */
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         }
         
         .profile-description {
-            background: rgba(10, 15, 25, 0.3);
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 15px;
-            border: 1px solid rgba(100, 150, 255, 0.1);
+            background: rgba(10, 15, 30, 0.4); /* Darker background */
+            border-radius: 12px; /* More rounded */
+            padding: 20px; /* Increased padding */
+            margin-top: 20px; /* More space above */
+            border: 1px solid rgba(100, 150, 255, 0.15); /* Slightly stronger border */
             flex-grow: 1;
             overflow-y: auto;
-            max-height: 150px;
+            max-height: 180px; /* Slightly taller */
             scrollbar-width: thin;
-            scrollbar-color: rgba(100, 150, 255, 0.3) transparent;
+            scrollbar-color: rgba(100, 150, 255, 0.4) transparent; /* Stronger scrollbar */
         }
         
         .profile-description::-webkit-scrollbar {
-            width: 6px;
+            width: 8px; /* Wider scrollbar */
         }
         
         .profile-description::-webkit-scrollbar-track {
@@ -249,127 +275,135 @@
         }
         
         .profile-description::-webkit-scrollbar-thumb {
-            background-color: rgba(100, 150, 255, 0.3);
-            border-radius: 3px;
+            background-color: rgba(100, 150, 255, 0.5); /* Stronger thumb */
+            border-radius: 4px; /* More rounded thumb */
         }
         
         .profile-description p {
-            font-size: 0.9rem;
-            line-height: 1.5;
-            color: #d0d0d0;
-            margin-bottom: 10px;
+            font-size: 0.95rem; /* Slightly larger text */
+            line-height: 1.6; /* More relaxed line height */
+            color: var(--text-dark);
+            margin-bottom: 12px; /* More space between paragraphs */
         }
         
         .profile-description strong {
-            color: #64b5f6;
-            font-weight: 600;
+            color: var(--primary-blue);
+            font-weight: 700; /* Bolder strong text */
+            text-shadow: 0 0 3px rgba(100, 150, 255, 0.3); /* Soft glow */
         }
         
         .description-item {
             display: flex;
             align-items: flex-start;
-            margin-bottom: 8px;
+            margin-bottom: 10px; /* More space between items */
         }
         
         .bullet {
-            color: #64b5f6;
-            margin-right: 8px;
-            font-size: 0.7rem;
-            line-height: 1.5;
-            margin-top: 3px;
+            color: var(--primary-blue);
+            margin-right: 10px; /* More space for bullet */
+            font-size: 0.8rem; /* Larger bullet */
+            line-height: 1.6;
+            margin-top: 2px;
         }
         
         .social-links {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 20px;
+            gap: 15px; /* Increased gap */
+            margin-top: 30px; /* More space above social links */
             padding-top: 20px;
+            border-top: 1px solid rgba(100, 150, 255, 0.1); /* Subtle separator */
         }
         
         .social-link {
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            background: rgba(100, 150, 255, 0.1);
-            color: #64b5f6;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
+            width: 50px; /* Larger buttons */
+            height: 50px;
+            border-radius: 14px; /* More rounded */
+            background: rgba(100, 150, 255, 0.12); /* Slightly stronger initial background */
+            color: var(--primary-blue);
+            font-size: 1.3rem; /* Larger icons */
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother transition */
             text-decoration: none;
-            border: 1px solid rgba(100, 150, 255, 0.2);
-            backdrop-filter: blur(2px);
-            transform: translateZ(10px);
+            border: 1px solid rgba(100, 150, 255, 0.25); /* Stronger border */
+            backdrop-filter: blur(3px);
+            transform: translateZ(12px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Initial shadow */
         }
         
         .social-link:hover {
-            background: rgba(100, 150, 255, 0.2);
-            transform: translateY(-3px) translateZ(20px);
-            box-shadow: 0 5px 15px rgba(100, 150, 255, 0.15);
-            color: #ffffff;
+            background: rgba(100, 150, 255, 0.25); /* Stronger hover background */
+            transform: translateY(-5px) translateZ(25px) scale(1.05); /* More pronounced hover */
+            box-shadow: 0 8px 20px var(--shadow-blue), 0 0 15px var(--glow-color); /* Enhanced shadow and glow */
+            color: var(--text-light);
         }
         
+        /* Specific social link hover colors */
         .social-link.facebook:hover {
-            background: rgba(59, 89, 152, 0.2);
+            background: rgba(59, 89, 152, 0.3);
             color: #3b5998;
         }
         
         .social-link.instagram:hover {
-            background: rgba(225, 48, 108, 0.2);
+            background: rgba(225, 48, 108, 0.3);
             color: #E1306C;
         }
         
         .social-link.twitter:hover {
-            background: rgba(29, 161, 242, 0.2);
+            background: rgba(29, 161, 242, 0.3);
             color: #1DA1F2;
         }
         
         .social-link.discord:hover {
-            background: rgba(114, 137, 218, 0.2);
+            background: rgba(114, 137, 218, 0.3);
             color: #7289DA;
         }
         
         .social-link.teamspeak:hover {
-            background: rgba(74, 111, 165, 0.2);
+            background: rgba(74, 111, 165, 0.3);
             color: #4A6FA5;
         }
         
         .audio-control {
             position: fixed;
-            top: 20px;
-            left: 20px;
-            background: rgba(10, 10, 20, 0.4);
-            border: 1px solid rgba(100, 150, 255, 0.3);
+            top: 25px; /* Slightly more spaced */
+            left: 25px;
+            background: rgba(10, 10, 25, 0.4);
+            border: 1px solid rgba(100, 150, 255, 0.4); /* Stronger border */
             border-radius: 50%;
-            width: 44px;
-            height: 44px;
+            width: 48px; /* Larger control */
+            height: 48px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #64b5f6;
+            color: var(--primary-blue);
+            font-size: 1.3rem; /* Larger icon */
             z-index: 100;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(2px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            backdrop-filter: blur(3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
         
         .audio-control:hover {
-            background: rgba(100, 150, 255, 0.15);
-            color: #ffffff;
-            transform: scale(1.1);
+            background: rgba(100, 150, 255, 0.2);
+            color: var(--text-light);
+            transform: scale(1.15); /* More pronounced scale */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3), 0 0 15px var(--glow-color);
         }
         
         .particle {
             position: absolute;
-            background: rgba(100, 150, 255, 0.2);
+            background: rgba(100, 150, 255, 0.25); /* Slightly more visible */
             border-radius: 50%;
             pointer-events: none;
             z-index: -1;
+            box-shadow: 0 0 8px var(--glow-color); /* Soft glow */
         }
         
+        /* Click Overlay */
         .click-overlay {
             position: fixed;
             top: 0;
@@ -381,7 +415,7 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
+            transition: opacity 0.5s ease-out, visibility 0.5s ease-out; /* Slower, smoother transition */
         }
         
         .click-overlay.hidden {
@@ -397,65 +431,67 @@
         
         .click-text {
             font-family: 'Orbitron', sans-serif;
-            font-size: 3rem;
-            color: #ffffff;
+            font-size: 3.5rem; /* Larger text */
+            color: var(--text-light);
             text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-            margin-bottom: 20px;
-            background: linear-gradient(90deg, #64b5f6, #1976d2);
+            letter-spacing: 4px; /* More spacing */
+            text-shadow: 0 0 20px rgba(0, 170, 255, 0.6); /* More intense blue glow */
+            margin-bottom: 25px;
+            background: linear-gradient(90deg, #82b1ff, #42a5f5, #2196f3); /* Matching gradient */
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: zoomIn 0.5s ease-out forwards;
+            animation: zoomIn 0.7s ease-out forwards; /* Slower zoom */
         }
         
         .click-subtext {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 1.2rem;
-            color: #e0e0e0;
-            letter-spacing: 1px;
-            margin-bottom: 30px;
+            font-size: 1.4rem; /* Larger subtext */
+            color: var(--text-medium);
+            letter-spacing: 2px;
+            margin-bottom: 40px;
             opacity: 0;
-            animation: fadeIn 0.5s ease-out 0.3s forwards;
+            animation: fadeIn 0.7s ease-out 0.4s forwards; /* Slower fade-in */
         }
         
         .click-icon {
-            font-size: 2rem;
-            color: #64b5f6;
+            font-size: 2.5rem; /* Larger icon */
+            color: var(--primary-blue);
             opacity: 0;
-            animation: bounceIn 0.5s ease-out 0.6s forwards, bounce 2s infinite 1.1s;
+            animation: bounceIn 0.7s ease-out 0.7s forwards, bounce 2.5s infinite 1.4s; /* Slower animations */
+            text-shadow: 0 0 10px rgba(100, 150, 255, 0.6); /* Icon glow */
         }
         
         @keyframes zoomIn {
-            0% { transform: scale(0.5); opacity: 0; }
+            0% { transform: scale(0.3); opacity: 0; }
             100% { transform: scale(1); opacity: 1; }
         }
         
         @keyframes fadeIn {
-            0% { opacity: 0; transform: translateY(10px); }
-            100% { opacity: 0.8; transform: translateY(0); }
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 0.9; transform: translateY(0); }
         }
         
         @keyframes bounceIn {
-            0% { opacity: 0; transform: scale(0.3); }
-            50% { opacity: 1; transform: scale(1.1); }
+            0% { opacity: 0; transform: scale(0.1); }
+            50% { opacity: 1; transform: scale(1.2); }
             100% { opacity: 1; transform: scale(1); }
         }
         
         @keyframes bounce {
             0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-20px); }
-            60% { transform: translateY(-10px); }
+            40% { transform: translateY(-25px); } /* Larger bounce */
+            60% { transform: translateY(-12px); }
         }
         
         .typing-cursor {
             display: inline-block;
-            width: 2px;
-            height: 1.5rem;
-            background: #64b5f6;
-            margin-left: 2px;
-            animation: blink 0.7s infinite;
+            width: 3px; /* Thicker cursor */
+            height: 1.8rem; /* Taller cursor */
+            background: var(--primary-blue);
+            margin-left: 4px;
+            animation: blink 0.6s infinite; /* Slightly faster blink */
             vertical-align: middle;
+            box-shadow: 0 0 5px var(--primary-blue); /* Cursor glow */
         }
         
         @keyframes blink {
@@ -467,43 +503,84 @@
             .container {
                 width: 95%;
                 height: auto;
-                min-height: 500px;
+                min-height: 550px; /* Slightly increased min-height for mobile */
+                padding: 10px 0;
+            }
+            
+            .profile-card {
+                padding: 25px; /* Reduced padding for mobile */
             }
             
             .profile-content {
                 flex-direction: column;
-                gap: 20px;
+                gap: 25px; /* Adjusted gap */
             }
             
             .profile-left {
                 width: 100%;
+                text-align: center; /* Center align for mobile */
+            }
+
+            .profile-pic {
+                width: 120px;
+                height: 120px;
             }
             
             .gamer-name {
                 text-align: center;
+                font-size: 1.8rem;
+                height: auto; /* Allow height to adjust */
             }
             
             .gamer-tag {
                 text-align: center;
+                font-size: 0.95rem;
+            }
+            
+            .stats {
+                flex-wrap: wrap; /* Allow stats to wrap */
+                justify-content: center;
+                gap: 15px; /* Gap between stats */
+            }
+
+            .stat {
+                padding: 0 10px;
+            }
+
+            .stat-value {
+                font-size: 1.5rem;
+            }
+
+            .stat-label {
+                font-size: 0.7rem;
             }
             
             .audio-control {
                 top: 15px;
                 left: 15px;
-                width: 38px;
-                height: 38px;
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
             }
             
             .click-text {
-                font-size: 2rem;
+                font-size: 2.5rem;
+                letter-spacing: 2px;
             }
             
             .click-subtext {
-                font-size: 1rem;
+                font-size: 1.1rem;
+                letter-spacing: 1px;
             }
             
             .profile-description {
-                max-height: 120px;
+                max-height: 150px; /* Adjusted max-height for mobile */
+                padding: 15px;
+            }
+            .social-link {
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
             }
         }
     </style>
@@ -515,10 +592,8 @@
     </video>
     <div class="video-overlay"></div>
     
-    <!-- Custom bomb cursor -->
     <div class="custom-cursor" id="customCursor">💣</div>
     
-    <!-- Click Interface Overlay -->
     <div class="click-overlay" id="clickOverlay">
         <div class="click-content">
             <div class="click-text">WELCOME</div>
@@ -529,15 +604,12 @@
         </div>
     </div>
     
-    <!-- Audio Control - Now at top left -->
     <div class="audio-control" id="audioControl">
         <i class="fas fa-volume-mute"></i>
     </div>
     
-    <!-- Snowflakes will be generated here by JavaScript -->
     <div id="snow-container"></div>
     
-    <!-- Particles will be generated here -->
     <div id="particles"></div>
     
     <div class="container">
@@ -569,25 +641,25 @@
                         <div class="description-item">
                             <span class="bullet">◉</span>
                             <div class="description-text">
-                                <strong>#</strong> #
+                                <strong>Hello, world!</strong> I'm an avid gamer and passionate developer with over a decade of experience in the digital realm. I thrive on bringing ideas to life through code and exploring the vast landscapes of virtual worlds. My dedication is unwavering, and I'm always available to dive into new challenges.
                             </div>
                         </div>
                         <div class="description-item">
                             <span class="bullet">◉</span>
                             <div class="description-text">
-                                <strong>#</strong> #
+                                <strong>Skills & Interests:</strong> Beyond gaming, I specialize in web development, focusing on creating immersive and interactive user experiences. My tech stack includes HTML, CSS, JavaScript, and various front-end frameworks. I'm also deeply interested in cybersecurity and AI.
                             </div>
                         </div>
                         <div class="description-item">
                             <span class="bullet">◉</span>
                             <div class="description-text">
-                                <strong>#</strong> #
+                                <strong>Gaming Passion:</strong> From competitive FPS to expansive RPGs, I enjoy a wide range of games. I believe gaming is not just a hobby but a platform for creativity, problem-solving, and building communities. Let's connect and share our gaming adventures!
                             </div>
                         </div>
                         <div class="description-item">
                             <span class="bullet">◉</span>
                             <div class="description-text">
-                                <strong>#
+                                <strong>Connect with me:</strong> I'm always looking to collaborate on exciting projects or just chat about the latest in gaming and tech. Feel free to reach out via any of the social links below. Your ideas are welcome!
                             </div>
                         </div>
                     </div>
@@ -599,7 +671,7 @@
                         <a href="https://www.instagram.com/hichemajm22/" class="social-link instagram" target="_blank">
                             <i class="fab fa-instagram"></i>
                         </a>
-                        <a href="#" class="social-link twitter" target="_blank">
+                        <a href="https://twitter.com/yourusername" class="social-link twitter" target="_blank">
                             <i class="fab fa-twitter"></i>
                         </a>
                         <a href="https://discordapp.com/users/604491708780249109" class="social-link discord" target="_blank">
@@ -635,15 +707,16 @@
                 }
             });
             
-            // Prevent opening dev tools by other methods
+            // Prevent opening dev tools by other methods (less reliable)
             function detectDevTools() {
                 const widthThreshold = window.outerWidth - window.innerWidth > 160;
                 const heightThreshold = window.outerHeight - window.innerHeight > 160;
                 
                 if ((widthThreshold || heightThreshold) && !window.debugging) {
                     showAntiInspectMessage();
-                    document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#000;color:#fff;font-family:Arial;"><h1>Developer Tools Detected</h1></div>';
-                    window.location.reload();
+                    // Optionally, you could redirect or clear content
+                    // document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#000;color:#fff;font-family:Arial;"><h1>Developer Tools Detected</h1></div>';
+                    // window.location.reload(); 
                 }
             }
             
@@ -655,52 +728,52 @@
             notification.style.position = 'fixed';
             notification.style.bottom = '20px';
             notification.style.right = '20px';
-            notification.style.background = 'rgba(255, 0, 0, 0.8)';
+            notification.style.background = 'rgba(255, 0, 0, 0.9)'; /* More opaque */
             notification.style.color = 'white';
-            notification.style.padding = '15px';
-            notification.style.borderRadius = '8px';
+            notification.style.padding = '15px 20px'; /* Adjusted padding */
+            notification.style.borderRadius = '10px'; /* More rounded */
             notification.style.zIndex = '10000';
-            notification.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.3)';
-            notification.style.transform = 'translateY(30px)';
+            notification.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.4)'; /* Stronger shadow */
+            notification.style.transform = 'translateY(40px)'; /* Further initial translateY */
             notification.style.opacity = '0';
-            notification.style.transition = 'all 0.3s ease';
-            notification.innerHTML = '<i class="fas fa-lock"></i> Developer tools are disabled for this page';
+            notification.style.transition = 'all 0.4s ease-out'; /* Smoother transition */
+            notification.innerHTML = '<i class="fas fa-lock" style="margin-right: 8px;"></i> Developer tools are disabled for this page';
             document.body.appendChild(notification);
             
             setTimeout(() => {
                 notification.style.transform = 'translateY(0)';
                 notification.style.opacity = '1';
-            }, 10);
+            }, 50);
             
             setTimeout(() => {
-                notification.style.transform = 'translateY(30px)';
+                notification.style.transform = 'translateY(40px)';
                 notification.style.opacity = '0';
-                setTimeout(() => notification.remove(), 300);
-            }, 3000);
+                setTimeout(() => notification.remove(), 400); /* Match transition duration */
+            }, 3500); /* Display longer */
         }
         
         // Enhanced snow effect with smaller, more subtle flakes
         function createSnow() {
             const snowContainer = document.getElementById('snow-container');
-            const snowflakes = ['❄', '❅', '❆', '✻', '✼', '✽', '✾', '❄', '❅', '❆'];
+            const snowflakes = ['❄', '❅', '❆', '✻', '✼', '✽']; // Fewer, more distinct snowflakes
             
-            for (let i = 0; i < 60; i++) {
+            for (let i = 0; i < 75; i++) { // More snowflakes
                 const snow = document.createElement('div');
                 snow.className = 'snow';
                 snow.innerHTML = snowflakes[Math.floor(Math.random() * snowflakes.length)];
                 
                 // Random positioning
                 snow.style.left = Math.random() * 100 + 'vw';
-                snow.style.opacity = Math.random() * 0.7 + 0.3;
-                snow.style.fontSize = (Math.random() * 6 + 4) + 'px';
+                snow.style.opacity = Math.random() * 0.6 + 0.2; // Softer opacity range
+                snow.style.fontSize = (Math.random() * 5 + 6) + 'px'; // Varied size
                 
                 // Animation with different speeds
-                const animationDuration = Math.random() * 15 + 10;
+                const animationDuration = Math.random() * 20 + 10; // Longer, more varied duration
                 snow.style.animationDuration = `${animationDuration}s`;
-                snow.style.animationDelay = Math.random() * 5 + 's';
+                snow.style.animationDelay = Math.random() * 8 + 's'; // Longer delay for staggered effect
                 
                 // Random horizontal movement
-                const horizontalMovement = Math.random() * 100 - 50;
+                const horizontalMovement = Math.random() * 120 - 60; // Wider horizontal drift
                 snow.style.transform = `translateX(${horizontalMovement}px)`;
                 
                 snowContainer.appendChild(snow);
@@ -710,50 +783,80 @@
         // Floating particles effect
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
-            const colors = ['rgba(100, 150, 255, 0.1)', 'rgba(100, 200, 255, 0.08)', 'rgba(150, 100, 255, 0.08)'];
+            const colors = ['rgba(100, 150, 255, 0.2)', 'rgba(100, 200, 255, 0.15)', 'rgba(150, 100, 255, 0.15)'];
             
-            for (let i = 0; i < 15; i++) {
+            for (let i = 0; i < 25; i++) { // More particles
                 const particle = document.createElement('div');
                 particle.className = 'particle';
                 
                 // Random properties
-                const size = Math.random() * 6 + 3;
+                const size = Math.random() * 8 + 4; // Larger and more varied sizes
                 particle.style.width = `${size}px`;
                 particle.style.height = `${size}px`;
                 particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-                particle.style.opacity = Math.random() * 0.5 + 0.3;
+                particle.style.opacity = Math.random() * 0.6 + 0.4; // More opaque
                 
                 // Random positioning
                 particle.style.left = Math.random() * 100 + 'vw';
                 particle.style.top = Math.random() * 100 + 'vh';
                 
                 // Animation
-                const duration = Math.random() * 30 + 15;
+                const duration = Math.random() * 40 + 20; // Longer, slower animation
                 particle.style.animation = `float ${duration}s linear infinite`;
-                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDelay = Math.random() * 15 + 's'; // Longer delay
                 
                 particlesContainer.appendChild(particle);
             }
             
-            // Add CSS for particle animation
+            // Add CSS for particle animation (optimized for better variation)
             const style = document.createElement('style');
-            style.innerHTML = `
+            style.innerHTML += `
                 @keyframes float {
                     0% {
-                        transform: translate(0, 0) rotate(0deg);
-                        opacity: 0.5;
+                        transform: translate(0, 0) scale(1) rotate(0deg);
+                        opacity: var(--initial-opacity, 0.5);
+                    }
+                    25% {
+                        transform: translate(var(--p1x, 10px), var(--p1y, -15px)) scale(var(--s1, 1.1)) rotate(var(--r1, 90deg));
+                        opacity: var(--o1, 0.6);
                     }
                     50% {
-                        transform: translate(${Math.random() * 40 - 20}px, ${Math.random() * 40 - 20}px) rotate(180deg);
-                        opacity: 0.3;
+                        transform: translate(var(--p2x, -10px), var(--p2y, 15px)) scale(var(--s2, 0.9)) rotate(var(--r2, 180deg));
+                        opacity: var(--o2, 0.4);
+                    }
+                    75% {
+                        transform: translate(var(--p3x, 15px), var(--p3y, 5px)) scale(var(--s3, 1.05)) rotate(var(--r3, 270deg));
+                        opacity: var(--o3, 0.7);
                     }
                     100% {
-                        transform: translate(0, 0) rotate(360deg);
-                        opacity: 0.5;
+                        transform: translate(0, 0) scale(1) rotate(360deg);
+                        opacity: var(--initial-opacity, 0.5);
                     }
                 }
             `;
             document.head.appendChild(style);
+
+            // Apply custom CSS variables for each particle for unique animation paths
+            particlesContainer.querySelectorAll('.particle').forEach(p => {
+                p.style.setProperty('--initial-opacity', (Math.random() * 0.2 + 0.4).toFixed(2));
+                p.style.setProperty('--p1x', (Math.random() * 30 - 15) + 'px');
+                p.style.setProperty('--p1y', (Math.random() * 30 - 15) + 'px');
+                p.style.setProperty('--s1', (Math.random() * 0.2 + 1).toFixed(2));
+                p.style.setProperty('--r1', (Math.random() * 360) + 'deg');
+                p.style.setProperty('--o1', (Math.random() * 0.2 + 0.5).toFixed(2));
+
+                p.style.setProperty('--p2x', (Math.random() * 30 - 15) + 'px');
+                p.style.setProperty('--p2y', (Math.random() * 30 - 15) + 'px');
+                p.style.setProperty('--s2', (Math.random() * 0.2 + 0.8).toFixed(2));
+                p.style.setProperty('--r2', (Math.random() * 360) + 'deg');
+                p.style.setProperty('--o2', (Math.random() * 0.2 + 0.3).toFixed(2));
+
+                p.style.setProperty('--p3x', (Math.random() * 30 - 15) + 'px');
+                p.style.setProperty('--p3y', (Math.random() * 30 - 15) + 'px');
+                p.style.setProperty('--s3', (Math.random() * 0.2 + 0.9).toFixed(2));
+                p.style.setProperty('--r3', (Math.random() * 360) + 'deg');
+                p.style.setProperty('--o3', (Math.random() * 0.2 + 0.6).toFixed(2));
+            });
         }
         
         // Custom bomb cursor with explosion trail effect
@@ -762,7 +865,7 @@
             let lastX = 0;
             let lastY = 0;
             let lastTime = 0;
-            const explosionInterval = 50; // milliseconds between explosions
+            const explosionInterval = 40; // More frequent explosions
             let lastExplosionTime = 0;
             
             document.addEventListener('mousemove', (e) => {
@@ -778,7 +881,7 @@
                 const speed = distance / deltaTime;
                 
                 // Create explosion trail when moving fast enough
-                if (now - lastExplosionTime > explosionInterval && speed > 0.1) {
+                if (now - lastExplosionTime > explosionInterval && speed > 0.2) { // Higher speed threshold
                     createExplosion(e.clientX, e.clientY, deltaX, deltaY, speed);
                     lastExplosionTime = now;
                 }
@@ -790,33 +893,33 @@
             
             function createExplosion(x, y, deltaX, deltaY, speed) {
                 // Create multiple explosion particles
-                const particleCount = 3 + Math.floor(speed / 5);
+                const particleCount = 4 + Math.floor(speed / 4); // More particles based on speed
                 
                 for (let i = 0; i < particleCount; i++) {
                     const particle = document.createElement('div');
                     particle.className = 'explosion-particle';
                     
                     // Position particle slightly behind cursor
-                    particle.style.left = `${x - deltaX * 0.1}px`;
-                    particle.style.top = `${y - deltaY * 0.1}px`;
+                    particle.style.left = `${x - deltaX * 0.05}px`; // Closer to cursor
+                    particle.style.top = `${y - deltaY * 0.05}px`;
                     
                     // Calculate random direction based on movement
                     const angle = Math.atan2(deltaY, deltaX);
-                    const randomAngle = angle + (Math.random() * 1.5 - 0.75);
-                    const distance = 10 + Math.random() * 30;
+                    const randomAngle = angle + (Math.random() * 1.8 - 0.9); // Wider spread
+                    const distance = 15 + Math.random() * 40; // Further distance
                     
                     // Set CSS variables for animation
                     particle.style.setProperty('--tx', `${Math.cos(randomAngle) * distance}px`);
                     particle.style.setProperty('--ty', `${Math.sin(randomAngle) * distance}px`);
                     
                     // Random size
-                    const size = 5 + Math.random() * 10;
+                    const size = 6 + Math.random() * 12; // Larger particles
                     particle.style.width = `${size}px`;
                     particle.style.height = `${size}px`;
                     
                     // Random color variation
-                    const hue = 20 + Math.random() * 20; // Orange-red range
-                    particle.style.background = `radial-gradient(circle, hsl(${hue}, 100%, 60%), hsl(${hue}, 100%, 40%))`;
+                    const hue = 15 + Math.random() * 30; // More orange-red range
+                    particle.style.background = `radial-gradient(circle, hsl(${hue}, 100%, 65%), hsl(${hue}, 100%, 45%))`;
                     
                     document.body.appendChild(particle);
                     
@@ -837,45 +940,50 @@
             
             // Fallback to regular teamspeak:// protocol if needed
             setTimeout(() => {
-                window.location.href = `teamspeak://Skyness?port=12673`;
+                window.location.href = `teamspeak://Skyness?port=12673`; // Ensure port is included for robustness
             }, 100);
             
             // Final fallback to TeamSpeak download page
             setTimeout(() => {
-                window.open(`https://www.teamspeak.com/en/download/`, '_blank');
-            }, 500);
+                // Check if the user is still on the same page (meaning TS client didn't launch)
+                // This is a rough check and might not be perfect.
+                const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+                if (!/Teamspeak|TS3/i.test(userAgent)) { // Basic check for TS client presence
+                    window.open(`https://www.teamspeak.com/en/downloads/`, '_blank'); // Corrected download URL
+                }
+            }, 500); // Increased timeout slightly
             
             // Show notification
             const notification = document.createElement('div');
             notification.style.position = 'fixed';
             notification.style.bottom = '20px';
             notification.style.right = '20px';
-            notification.style.background = 'rgba(20, 30, 50, 0.8)';
+            notification.style.background = 'rgba(20, 30, 60, 0.9)'; /* Darker, more opaque */
             notification.style.color = 'white';
-            notification.style.padding = '15px';
-            notification.style.borderRadius = '8px';
-            notification.style.borderLeft = '4px solid rgba(74, 111, 165, 0.7)';
+            notification.style.padding = '18px 25px'; /* Larger padding */
+            notification.style.borderRadius = '12px'; /* More rounded */
+            notification.style.borderLeft = '5px solid rgba(74, 111, 165, 0.8)'; /* Thicker, more opaque border */
             notification.style.zIndex = '1000';
-            notification.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
-            notification.style.transform = 'translateY(30px)';
+            notification.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.25)';
+            notification.style.transform = 'translateY(40px)';
             notification.style.opacity = '0';
-            notification.style.transition = 'all 0.3s ease';
+            notification.style.transition = 'all 0.4s ease-out';
             notification.innerHTML = `
-                <p style="margin-bottom: 8px; font-weight: 600;">Connecting to TeamSpeak server:</p>
-                <p style="font-family: monospace;">Skyness</p>
+                <p style="margin-bottom: 10px; font-weight: 600; font-size: 1.1rem;"><i class="fas fa-headset" style="margin-right: 10px;"></i>Connecting to TeamSpeak server:</p>
+                <p style="font-family: 'Orbitron', sans-serif; font-size: 1.2rem; color: #82b1ff; text-shadow: 0 0 8px rgba(130, 177, 255, 0.4);">Skyness</p>
             `;
             document.body.appendChild(notification);
             
             setTimeout(() => {
                 notification.style.transform = 'translateY(0)';
                 notification.style.opacity = '1';
-            }, 10);
+            }, 50);
             
             setTimeout(() => {
-                notification.style.transform = 'translateY(30px)';
+                notification.style.transform = 'translateY(40px)';
                 notification.style.opacity = '0';
-                setTimeout(() => notification.remove(), 300);
-            }, 3000);
+                setTimeout(() => notification.remove(), 400);
+            }, 4000); // Display longer
         }
         
         // Audio control for video background
@@ -890,11 +998,16 @@
             if (isMuted) {
                 videoBg.muted = false;
                 audioControl.innerHTML = '<i class="fas fa-volume-up"></i>';
-                audioControl.style.color = '#64b5f6';
+                audioControl.style.color = 'var(--primary-blue)';
                 
                 // Try to play the video (required for some mobile browsers)
                 videoBg.play().catch(e => {
                     console.log("Video playback failed:", e);
+                    // If play fails, revert to muted icon
+                    audioControl.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                    audioControl.style.color = '#ff6b6b';
+                    isMuted = true;
+                    videoBg.muted = true;
                 });
             } else {
                 videoBg.muted = true;
@@ -904,10 +1017,10 @@
             isMuted = !isMuted;
             
             // Pulse animation for audio control
-            audioControl.style.animation = 'pulse 0.5s ease';
+            audioControl.style.animation = 'pulse 0.6s ease';
             setTimeout(() => {
                 audioControl.style.animation = '';
-            }, 500);
+            }, 600);
         });
         
         // Add pulse animation for audio control
@@ -915,7 +1028,7 @@
         pulseStyle.innerHTML = `
             @keyframes pulse {
                 0% { transform: scale(1); }
-                50% { transform: scale(1.2); }
+                50% { transform: scale(1.25); } /* More pronounced pulse */
                 100% { transform: scale(1); }
             }
         `;
@@ -923,37 +1036,38 @@
         
         // Enhanced 3D parallax effect
         document.addEventListener('mousemove', (e) => {
-            const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
-            const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 35; // Reduced sensitivity
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 35;
             const card = document.querySelector('.profile-card');
-            card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg) translateY(-5px)`;
+            card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg) translateY(-8px) translateZ(20px)`; // Add translateZ for depth
         });
         
         // Reset card position when mouse leaves
         document.querySelector('.container').addEventListener('mouseleave', () => {
             const card = document.querySelector('.profile-card');
-            card.style.transform = 'rotateY(0deg) rotateX(0deg)';
+            card.style.transform = 'rotateY(0deg) rotateX(0deg) translateY(0) translateZ(0)';
         });
         
         // Click overlay handler - Faster transition
         const clickOverlay = document.getElementById('clickOverlay');
         clickOverlay.addEventListener('click', () => {
             // Add animation to click overlay
-            clickOverlay.querySelector('.click-content').style.transform = 'scale(0.9)';
+            clickOverlay.querySelector('.click-content').style.transform = 'scale(0.8)'; // More dramatic shrink
+            clickOverlay.querySelector('.click-content').style.opacity = '0'; // Fade out content
             
             setTimeout(() => {
                 clickOverlay.classList.add('hidden');
                 videoBg.muted = false;
                 isMuted = false;
                 audioControl.innerHTML = '<i class="fas fa-volume-up"></i>';
-                audioControl.style.color = '#64b5f6';
+                audioControl.style.color = 'var(--primary-blue)';
                 
                 videoBg.play().then(() => {
                     // Pulse animation for audio control
-                    audioControl.style.animation = 'pulse 0.5s ease';
+                    audioControl.style.animation = 'pulse 0.6s ease';
                     setTimeout(() => {
                         audioControl.style.animation = '';
-                    }, 500);
+                    }, 600);
                 }).catch(e => {
                     console.log("Video playback failed:", e);
                     audioControl.innerHTML = '<i class="fas fa-volume-mute"></i>';
@@ -961,7 +1075,7 @@
                     isMuted = true;
                     videoBg.muted = true;
                 });
-            }, 150);
+            }, 300); // Reduced delay for quicker disappearance
         });
         
         // Typing animation for the name
@@ -979,8 +1093,8 @@
                         i++;
                         if (i > text.length) {
                             isDeleting = true;
-                            typingSpeed = speed * 2;
-                            setTimeout(type, 1000);
+                            typingSpeed = speed * 2.5; // Slower deletion
+                            setTimeout(type, 1500); // Longer pause before deleting
                             return;
                         }
                     } else {
@@ -988,6 +1102,7 @@
                         if (i === 0) {
                             isDeleting = false;
                             typingSpeed = speed;
+                            setTimeout(type, 800); // Shorter pause before retyping
                         }
                     }
                     
@@ -1009,7 +1124,7 @@
             
             // Start typing animation for the name
             const nameElement = document.getElementById('typing-name');
-            typeWriter(nameElement, "Bloodspyre", 100, 300);
+            typeWriter(nameElement, "Bloodspyre", 80, 500); // Faster typing, slight delay
             
             // Make sure video covers entire viewport
             function resizeVideo() {
@@ -1030,6 +1145,11 @@
             videoBg.addEventListener('loadedmetadata', resizeVideo);
             window.addEventListener('resize', resizeVideo);
             
+            // Call resize immediately if video metadata is already loaded (e.g., on refresh)
+            if (videoBg.readyState >= 2) { // HAVE_CURRENT_DATA or more
+                resizeVideo();
+            }
+
             // Obfuscate the source code further
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'u' && e.ctrlKey) {
