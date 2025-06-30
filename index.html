@@ -3,47 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@Bloodspyre | Elite Gamer Profile</title>
-    <!-- Load Font Awesome CSS first -->
+    <title>@Bloodspyre</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@500;600;700&family=Montserrat:wght@300;400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Rajdhani:wght@500;600;700&display=swap');
         
+        :root {
+            --primary-blue: #64b5f6;
+            --dark-blue: #1976d2;
+            --background-dark: #07070e;
+            --card-bg-light: rgba(10, 10, 25, 0.35);
+            --card-bg-dark: rgba(5, 5, 15, 0.25);
+            --border-blue: rgba(100, 150, 255, 0.2);
+            --shadow-blue: rgba(0, 89, 255, 0.15);
+            --text-light: #ffffff;
+            --text-medium: #e0e0e0;
+            --text-dark: #d0d0d0;
+            --explosion-gradient-start: #ff6600;
+            --explosion-gradient-end: #ff3300;
+            --glow-color: rgba(100, 150, 255, 0.4);
+            --glow-color-strong: rgba(100, 150, 255, 0.6);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none !important;
-            user-select: none;
+            cursor: none !important; /* Disable default cursor */
         }
         
         body {
             font-family: 'Rajdhani', sans-serif;
-            background-color: #0a0a0a;
-            color: #ffffff;
+            background-color: var(--background-dark);
+            color: var(--text-light);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             position: relative;
             overflow: hidden;
-            -webkit-tap-highlight-color: transparent;
-        }
-        
-        /* Cyberpunk Glow Effect */
-        .cyber-glow {
-            position: fixed;
-            width: 200vw;
-            height: 200vh;
-            background: radial-gradient(circle, rgba(100, 150, 255, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
-            pointer-events: none;
-            z-index: -1;
-            animation: glow-pulse 8s infinite alternate;
-        }
-        
-        @keyframes glow-pulse {
-            0% { opacity: 0.3; transform: scale(0.9); }
-            100% { opacity: 0.7; transform: scale(1.1); }
         }
         
         /* Custom bomb cursor */
@@ -51,36 +49,29 @@
             position: fixed;
             pointer-events: none;
             z-index: 9999;
-            font-size: 28px;
+            font-size: 28px; /* Slightly larger */
             transform: translate(-50%, -50%);
             transition: transform 0.1s ease;
-            text-shadow: 0 0 15px rgba(255, 50, 50, 0.9);
-            animation: bomb-pulse 0.5s infinite alternate, bomb-float 3s infinite ease-in-out;
-            filter: drop-shadow(0 0 5px #ff3300);
+            text-shadow: 0 0 15px rgba(255, 50, 50, 0.9); /* Stronger glow */
+            animation: bomb-pulse 0.5s infinite alternate;
         }
         
         @keyframes bomb-pulse {
-            0% { transform: translate(-50%, -50%) scale(1); }
-            100% { transform: translate(-50%, -50%) scale(1.2); }
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.9; }
+            100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
         }
         
-        @keyframes bomb-float {
-            0%, 100% { transform: translate(-50%, -50%) rotate(-5deg); }
-            50% { transform: translate(-50%, -50%) rotate(5deg); }
-        }
-        
-        /* Explosion particles */
+        /* Explosion particles that follow cursor */
         .explosion-particle {
             position: fixed;
-            width: 10px;
-            height: 10px;
-            background: radial-gradient(circle, #ff6600, #ff3300);
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle, var(--explosion-gradient-start), var(--explosion-gradient-end));
             border-radius: 50%;
             pointer-events: none;
             z-index: 9998;
             animation: explode 1s forwards;
-            box-shadow: 0 0 15px 3px rgba(255, 100, 0, 0.9);
-            filter: blur(0.5px);
+            box-shadow: 0 0 12px 3px rgba(255, 100, 0, 0.8); /* Enhanced shadow */
         }
         
         @keyframes explode {
@@ -94,23 +85,6 @@
             }
         }
         
-        /* Fire trail effect */
-        .fire-trail {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            background: radial-gradient(circle, rgba(255,100,0,0.8) 0%, rgba(255,50,0,0) 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9997;
-            animation: fade-trail 0.5s forwards;
-        }
-        
-        @keyframes fade-trail {
-            0% { transform: scale(1); opacity: 0.8; }
-            100% { transform: scale(0.5); opacity: 0; }
-        }
-        
         #video-bg {
             position: fixed;
             top: 0;
@@ -118,8 +92,8 @@
             width: 100vw;
             height: 100vh;
             object-fit: cover;
-            z-index: -3;
-            filter: brightness(0.7) contrast(1.2);
+            z-index: -2;
+            filter: brightness(0.8) contrast(1.2); /* Slightly muted, more contrast */
         }
         
         .video-overlay {
@@ -128,22 +102,28 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: linear-gradient(135deg, rgba(0, 20, 40, 0.6) 0%, rgba(10, 10, 20, 0.7) 100%);
-            z-index: -2;
+            background: linear-gradient(135deg, rgba(0, 15, 30, 0.6) 0%, rgba(5, 5, 15, 0.7) 100%); /* Darker, more intense overlay */
+            z-index: -1;
+            opacity: 1;
+            animation: overlay-fade-in 2s forwards; /* Added fade-in for overlay */
+        }
+
+        @keyframes overlay-fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         
-        /* Snowflakes with glow */
+        /* Snowflakes */
         .snow {
             position: absolute;
             top: -10px;
             z-index: 0;
-            color: rgba(255, 255, 255, 0.9);
+            color: rgba(255, 255, 255, 0.8); /* Slightly brighter */
             pointer-events: none;
             user-select: none;
             animation: fall linear infinite;
-            font-size: 10px;
-            text-shadow: 0 0 10px rgba(100, 150, 255, 0.5);
-            filter: drop-shadow(0 0 3px rgba(100, 180, 255, 0.7));
+            font-size: 10px; /* Slightly larger */
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* Soft glow */
         }
         
         @keyframes fall {
@@ -152,267 +132,142 @@
             }
         }
         
-        /* Main container with neon border effect */
         .container {
             position: relative;
             z-index: 1;
-            width: 750px;
-            height: 520px;
+            width: 713px;
+            height: 500px;
             perspective: 1000px;
-            padding: 10px;
-            border-radius: 20px;
-            background: rgba(5, 5, 15, 0.2);
-            box-shadow: 0 0 30px rgba(100, 150, 255, 0.1),
-                        inset 0 0 20px rgba(100, 150, 255, 0.05);
-            border: 1px solid rgba(100, 150, 255, 0.1);
-            animation: container-glow 3s infinite alternate;
         }
         
-        @keyframes container-glow {
-            0% { box-shadow: 0 0 30px rgba(100, 150, 255, 0.1), inset 0 0 20px rgba(100, 150, 255, 0.05); }
-            100% { box-shadow: 0 0 40px rgba(100, 150, 255, 0.2), inset 0 0 25px rgba(100, 150, 255, 0.1); }
-        }
-        
-        /* Profile card with glass morphism */
         .profile-card {
-            background: rgba(5, 5, 15, 0.3);
-            border-radius: 16px;
-            padding: 30px;
+            background: var(--card-bg-dark);
+            border-radius: 20px; /* More rounded */
+            padding: 40px; /* Increased padding */
             width: 100%;
             height: 100%;
-            box-shadow: 0 10px 40px rgba(0, 89, 255, 0.15);
-            border: 1px solid rgba(100, 150, 255, 0.3);
-            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 45px rgba(0, 89, 255, 0.2); /* Deeper shadow */
+            border: 1px solid var(--border-blue);
+            backdrop-filter: blur(8px); /* Stronger blur */
             display: flex;
             flex-direction: column;
             transform-style: preserve-3d;
             transition: all 0.5s ease;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .profile-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to bottom right,
-                rgba(100, 150, 255, 0.1) 0%,
-                rgba(100, 150, 255, 0) 50%,
-                rgba(255, 50, 100, 0.1) 100%
-            );
-            transform: rotate(30deg);
-            z-index: -1;
-            animation: shine 6s infinite;
-        }
-        
-        @keyframes shine {
-            0% { transform: rotate(30deg) translate(-30%, -30%); }
-            100% { transform: rotate(30deg) translate(30%, 30%); }
+            transform: translateZ(0); /* Ensure initial 3D context */
         }
         
         .profile-card:hover {
-            transform: translateY(-5px) rotateX(2deg) rotateY(2deg);
-            box-shadow: 0 15px 50px rgba(0, 89, 255, 0.25);
-            background: rgba(10, 10, 25, 0.4);
-            border: 1px solid rgba(100, 150, 255, 0.4);
+            transform: translateY(-8px) rotateX(2deg) rotateY(2deg) translateZ(20px); /* More pronounced 3D tilt */
+            box-shadow: 0 20px 50px var(--shadow-blue);
+            background: var(--card-bg-light);
         }
         
         .profile-content {
             display: flex;
             flex: 1;
-            gap: 30px;
+            gap: 40px; /* Increased gap */
         }
         
         .profile-left {
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 200px;
-            position: relative;
+            width: 220px; /* Slightly wider */
         }
         
-        /* Profile picture with animated border */
         .profile-pic {
-            width: 150px;
-            height: 150px;
+            width: 160px; /* Larger picture */
+            height: 160px;
             border-radius: 50%;
             object-fit: cover;
             margin-bottom: 25px;
-            border: 3px solid rgba(100, 150, 255, 0.5);
-            box-shadow: 0 5px 30px rgba(100, 150, 255, 0.3),
-                        inset 0 0 20px rgba(100, 150, 255, 0.2);
+            border: 4px solid rgba(100, 150, 255, 0.6); /* Thicker, more vibrant border */
+            box-shadow: 0 0 25px rgba(100, 150, 255, 0.3); /* Stronger glow */
             transition: all 0.5s ease;
-            background: rgba(10, 10, 25, 0.3);
-            transform: translateZ(20px);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .profile-pic::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to bottom right,
-                transparent 0%,
-                rgba(100, 150, 255, 0.1) 50%,
-                transparent 100%
-            );
-            transform: rotate(30deg);
-            animation: pic-shine 6s infinite;
-            z-index: 1;
-        }
-        
-        @keyframes pic-shine {
-            0% { transform: rotate(30deg) translate(-30%, -30%); }
-            100% { transform: rotate(30deg) translate(30%, 30%); }
+            background: rgba(10, 10, 20, 0.3);
+            transform: translateZ(25px); /* Lift further */
         }
         
         .profile-pic:hover {
-            transform: scale(1.05) translateZ(30px);
-            box-shadow: 0 8px 35px rgba(100, 150, 255, 0.4),
-                       inset 0 0 25px rgba(100, 150, 255, 0.3);
-            border: 3px solid rgba(100, 180, 255, 0.7);
+            transform: scale(1.08) translateZ(40px); /* More pronounced scale */
+            box-shadow: 0 0 35px rgba(100, 150, 255, 0.45), 0 0 50px rgba(100, 150, 255, 0.2); /* Enhanced glow */
         }
         
-        /* Name with gradient animation */
+        .profile-right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
         .gamer-name {
             font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
-            font-weight: 900;
-            margin-bottom: 8px;
-            letter-spacing: 2px;
-            background: linear-gradient(90deg, #64b5f6, #1976d2, #64b5f6);
-            background-size: 200% auto;
+            font-size: 2.2rem; /* Larger name */
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-light);
+            letter-spacing: 2px; /* Increased letter spacing */
+            background: linear-gradient(90deg, #82b1ff, #42a5f5, #2196f3); /* More nuanced blue gradient */
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-            transform: translateZ(10px);
-            height: 45px;
+            text-shadow: 0 0 10px rgba(0, 170, 255, 0.4); /* Blue glow */
+            transform: translateZ(15px);
+            height: 45px; /* Adjust height for larger font */
             overflow: hidden;
-            animation: gradient-shift 3s linear infinite;
-        }
-        
-        @keyframes gradient-shift {
-            0% { background-position: 0% center; }
-            100% { background-position: 200% center; }
         }
         
         .gamer-tag {
-            font-size: 1.1rem;
-            color: #e0e0e0;
-            margin-bottom: 25px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
-            position: relative;
-            padding-bottom: 10px;
+            font-size: 1.1rem; /* Slightly larger tag */
+            color: var(--text-medium);
+            margin-bottom: 25px; /* More space below */
+            font-weight: 500;
+            letter-spacing: 1px; /* Increased letter spacing */
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
         }
         
-        .gamer-tag::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 50px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #64b5f6, transparent);
-        }
-        
-        /* Stats with hover effect */
         .stats {
             display: flex;
             justify-content: space-around;
-            margin: 25px 0;
-            position: relative;
-        }
-        
-        .stats::before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(100, 150, 255, 0.5), transparent);
-        }
-        
-        .stats::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(100, 150, 255, 0.5), transparent);
+            margin: 25px 0; /* More vertical space */
         }
         
         .stat {
             text-align: center;
-            padding: 0 15px;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-        
-        .stat:hover {
-            transform: translateY(-5px);
+            padding: 0 20px; /* Increased padding */
         }
         
         .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #64b5f6;
+            font-size: 2rem; /* Larger stat values */
+            font-weight: 700; /* Bolder */
+            color: var(--primary-blue);
             font-family: 'Orbitron', sans-serif;
-            margin-bottom: 5px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-            position: relative;
-        }
-        
-        .stat-value::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 30px;
-            height: 2px;
-            background: rgba(100, 150, 255, 0.5);
+            margin-bottom: 8px; /* More space below value */
+            text-shadow: 0 0 8px rgba(100, 150, 255, 0.5); /* Blue glow */
         }
         
         .stat-label {
-            font-size: 0.85rem;
-            color: #e0e0e0;
+            font-size: 0.85rem; /* Slightly larger label */
+            color: var(--text-medium);
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-weight: 600;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+            letter-spacing: 1.5px; /* More spacing */
+            font-weight: 600; /* Bolder label */
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         }
         
-        /* Profile description with scrollbar */
         .profile-description {
-            background: rgba(10, 15, 30, 0.4);
-            border-radius: 12px;
-            padding: 18px;
-            margin-top: 20px;
-            border: 1px solid rgba(100, 150, 255, 0.2);
+            background: rgba(10, 15, 30, 0.4); /* Darker background */
+            border-radius: 12px; /* More rounded */
+            padding: 20px; /* Increased padding */
+            margin-top: 20px; /* More space above */
+            border: 1px solid rgba(100, 150, 255, 0.15); /* Slightly stronger border */
             flex-grow: 1;
             overflow-y: auto;
-            max-height: 160px;
+            max-height: 180px; /* Slightly taller */
             scrollbar-width: thin;
-            scrollbar-color: rgba(100, 150, 255, 0.5) transparent;
-            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.3);
+            scrollbar-color: rgba(100, 150, 255, 0.4) transparent; /* Stronger scrollbar */
         }
         
         .profile-description::-webkit-scrollbar {
-            width: 8px;
+            width: 8px; /* Wider scrollbar */
         }
         
         .profile-description::-webkit-scrollbar-track {
@@ -420,216 +275,147 @@
         }
         
         .profile-description::-webkit-scrollbar-thumb {
-            background: linear-gradient(rgba(100, 150, 255, 0.5), rgba(100, 180, 255, 0.7));
-            border-radius: 4px;
-            border: 1px solid rgba(100, 150, 255, 0.3);
+            background-color: rgba(100, 150, 255, 0.5); /* Stronger thumb */
+            border-radius: 4px; /* More rounded thumb */
         }
         
         .profile-description p {
-            font-size: 0.95rem;
-            line-height: 1.6;
-            color: #e0e0e0;
-            margin-bottom: 12px;
+            font-size: 0.95rem; /* Slightly larger text */
+            line-height: 1.6; /* More relaxed line height */
+            color: var(--text-dark);
+            margin-bottom: 12px; /* More space between paragraphs */
         }
         
         .profile-description strong {
-            color: #64b5f6;
-            font-weight: 700;
-            text-shadow: 0 0 5px rgba(100, 150, 255, 0.3);
+            color: var(--primary-blue);
+            font-weight: 700; /* Bolder strong text */
+            text-shadow: 0 0 3px rgba(100, 150, 255, 0.3); /* Soft glow */
         }
         
         .description-item {
             display: flex;
             align-items: flex-start;
-            margin-bottom: 10px;
-            position: relative;
-            padding-left: 20px;
+            margin-bottom: 10px; /* More space between items */
         }
         
         .bullet {
-            color: #64b5f6;
-            position: absolute;
-            left: 0;
-            top: 5px;
-            font-size: 0.8rem;
-            text-shadow: 0 0 5px rgba(100, 150, 255, 0.5);
-            animation: bullet-pulse 2s infinite;
+            color: var(--primary-blue);
+            margin-right: 10px; /* More space for bullet */
+            font-size: 0.8rem; /* Larger bullet */
+            line-height: 1.6;
+            margin-top: 2px;
         }
         
-        @keyframes bullet-pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        
-        /* Social links with improved hover */
         .social-links {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 25px;
-            padding-top: 25px;
-            position: relative;
-        }
-        
-        .social-links::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(100, 150, 255, 0.5), transparent);
+            gap: 15px; /* Increased gap */
+            margin-top: 30px; /* More space above social links */
+            padding-top: 20px;
+            border-top: 1px solid rgba(100, 150, 255, 0.1); /* Subtle separator */
         }
         
         .social-link {
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
-            background: rgba(100, 150, 255, 0.15);
-            color: #64b5f6;
-            font-size: 1.3rem;
-            transition: all 0.3s ease;
+            width: 50px; /* Larger buttons */
+            height: 50px;
+            border-radius: 14px; /* More rounded */
+            background: rgba(100, 150, 255, 0.12); /* Slightly stronger initial background */
+            color: var(--primary-blue);
+            font-size: 1.3rem; /* Larger icons */
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother transition */
             text-decoration: none;
-            border: 1px solid rgba(100, 150, 255, 0.3);
-            backdrop-filter: blur(5px);
-            transform: translateZ(10px);
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .social-link::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: all 0.5s ease;
+            border: 1px solid rgba(100, 150, 255, 0.25); /* Stronger border */
+            backdrop-filter: blur(3px);
+            transform: translateZ(12px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Initial shadow */
         }
         
         .social-link:hover {
-            background: rgba(100, 150, 255, 0.25);
-            transform: translateY(-5px) translateZ(20px);
-            box-shadow: 0 8px 25px rgba(100, 150, 255, 0.25);
-            color: #ffffff;
+            background: rgba(100, 150, 255, 0.25); /* Stronger hover background */
+            transform: translateY(-5px) translateZ(25px) scale(1.05); /* More pronounced hover */
+            box-shadow: 0 8px 20px var(--shadow-blue), 0 0 15px var(--glow-color); /* Enhanced shadow and glow */
+            color: var(--text-light);
         }
         
-        .social-link:hover::before {
-            left: 100%;
-        }
-        
+        /* Specific social link hover colors */
         .social-link.facebook:hover {
             background: rgba(59, 89, 152, 0.3);
             color: #3b5998;
-            border-color: rgba(59, 89, 152, 0.5);
         }
         
         .social-link.instagram:hover {
             background: rgba(225, 48, 108, 0.3);
             color: #E1306C;
-            border-color: rgba(225, 48, 108, 0.5);
         }
         
         .social-link.twitter:hover {
             background: rgba(29, 161, 242, 0.3);
             color: #1DA1F2;
-            border-color: rgba(29, 161, 242, 0.5);
         }
         
         .social-link.discord:hover {
             background: rgba(114, 137, 218, 0.3);
             color: #7289DA;
-            border-color: rgba(114, 137, 218, 0.5);
         }
         
         .social-link.teamspeak:hover {
             background: rgba(74, 111, 165, 0.3);
             color: #4A6FA5;
-            border-color: rgba(74, 111, 165, 0.5);
         }
         
-        /* Audio control with pulse effect */
         .audio-control {
             position: fixed;
-            top: 25px;
+            top: 25px; /* Slightly more spaced */
             left: 25px;
-            background: rgba(10, 15, 30, 0.5);
-            border: 1px solid rgba(100, 150, 255, 0.4);
+            background: rgba(10, 10, 25, 0.4);
+            border: 1px solid rgba(100, 150, 255, 0.4); /* Stronger border */
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            width: 48px; /* Larger control */
+            height: 48px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #64b5f6;
+            color: var(--primary-blue);
+            font-size: 1.3rem; /* Larger icon */
             z-index: 100;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-            font-size: 1.3rem;
-            animation: pulse-glow 2s infinite;
-        }
-        
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 5px rgba(100, 150, 255, 0.3); }
-            50% { box-shadow: 0 0 15px rgba(100, 150, 255, 0.5); }
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            backdrop-filter: blur(3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
         
         .audio-control:hover {
             background: rgba(100, 150, 255, 0.2);
-            color: #ffffff;
-            transform: scale(1.1);
-            animation: none;
-            box-shadow: 0 0 20px rgba(100, 150, 255, 0.6);
+            color: var(--text-light);
+            transform: scale(1.15); /* More pronounced scale */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3), 0 0 15px var(--glow-color);
         }
         
-        /* Particles with improved animation */
         .particle {
             position: absolute;
-            background: rgba(100, 150, 255, 0.3);
+            background: rgba(100, 150, 255, 0.25); /* Slightly more visible */
             border-radius: 50%;
             pointer-events: none;
             z-index: -1;
-            filter: blur(1px);
-            animation: float 15s infinite linear;
-            box-shadow: 0 0 10px rgba(100, 180, 255, 0.5);
+            box-shadow: 0 0 8px var(--glow-color); /* Soft glow */
         }
         
-        @keyframes float {
-            0% {
-                transform: translate(0, 0) rotate(0deg);
-                opacity: 0.5;
-            }
-            50% {
-                transform: translate(var(--random-x), var(--random-y)) rotate(180deg);
-                opacity: 0.8;
-            }
-            100% {
-                transform: translate(0, 0) rotate(360deg);
-                opacity: 0.5;
-            }
-        }
-        
-        /* Click overlay with improved animation */
+        /* Click Overlay */
         .click-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 1) 100%);
+            background: #000000;
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
+            transition: opacity 0.5s ease-out, visibility 0.5s ease-out; /* Slower, smoother transition */
         }
         
         .click-overlay.hidden {
@@ -640,47 +426,44 @@
         .click-content {
             text-align: center;
             transform: scale(1);
-            transition: transform 0.5s ease;
-            perspective: 1000px;
+            transition: transform 0.3s ease;
         }
         
         .click-text {
             font-family: 'Orbitron', sans-serif;
-            font-size: 3.5rem;
-            color: #ffffff;
+            font-size: 3.5rem; /* Larger text */
+            color: var(--text-light);
             text-transform: uppercase;
-            letter-spacing: 3px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+            letter-spacing: 4px; /* More spacing */
+            text-shadow: 0 0 20px rgba(0, 170, 255, 0.6); /* More intense blue glow */
             margin-bottom: 25px;
-            background: linear-gradient(90deg, #64b5f6, #1976d2, #64b5f6);
-            background-size: 200% auto;
+            background: linear-gradient(90deg, #82b1ff, #42a5f5, #2196f3); /* Matching gradient */
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: gradient-shift 3s linear infinite, zoomIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            animation: zoomIn 0.7s ease-out forwards; /* Slower zoom */
         }
         
         .click-subtext {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 1.5rem;
-            color: #e0e0e0;
+            font-size: 1.4rem; /* Larger subtext */
+            color: var(--text-medium);
             letter-spacing: 2px;
             margin-bottom: 40px;
             opacity: 0;
-            animation: fadeIn 0.8s ease-out 0.5s forwards;
-            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.7s ease-out 0.4s forwards; /* Slower fade-in */
         }
         
         .click-icon {
-            font-size: 2.5rem;
-            color: #64b5f6;
+            font-size: 2.5rem; /* Larger icon */
+            color: var(--primary-blue);
             opacity: 0;
-            animation: bounceIn 0.8s ease-out 1s forwards, bounce 2.5s infinite 1.8s;
-            text-shadow: 0 0 15px rgba(100, 150, 255, 0.5);
+            animation: bounceIn 0.7s ease-out 0.7s forwards, bounce 2.5s infinite 1.4s; /* Slower animations */
+            text-shadow: 0 0 10px rgba(100, 150, 255, 0.6); /* Icon glow */
         }
         
         @keyframes zoomIn {
-            0% { transform: scale(0.5) rotateX(90deg); opacity: 0; }
-            100% { transform: scale(1) rotateX(0); opacity: 1; }
+            0% { transform: scale(0.3); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
         
         @keyframes fadeIn {
@@ -689,28 +472,26 @@
         }
         
         @keyframes bounceIn {
-            0% { opacity: 0; transform: scale(0.3) rotate(-30deg); }
-            50% { opacity: 1; transform: scale(1.2) rotate(10deg); }
-            70% { transform: scale(0.9) rotate(-5deg); }
-            100% { opacity: 1; transform: scale(1) rotate(0); }
+            0% { opacity: 0; transform: scale(0.1); }
+            50% { opacity: 1; transform: scale(1.2); }
+            100% { opacity: 1; transform: scale(1); }
         }
         
         @keyframes bounce {
             0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-25px); }
-            60% { transform: translateY(-15px); }
+            40% { transform: translateY(-25px); } /* Larger bounce */
+            60% { transform: translateY(-12px); }
         }
         
-        /* Typing animation */
         .typing-cursor {
             display: inline-block;
-            width: 3px;
-            height: 2rem;
-            background: #64b5f6;
-            margin-left: 5px;
-            animation: blink 0.7s infinite, cursor-pulse 1.5s infinite;
+            width: 3px; /* Thicker cursor */
+            height: 1.8rem; /* Taller cursor */
+            background: var(--primary-blue);
+            margin-left: 4px;
+            animation: blink 0.6s infinite; /* Slightly faster blink */
             vertical-align: middle;
-            box-shadow: 0 0 10px rgba(100, 150, 255, 0.7);
+            box-shadow: 0 0 5px var(--primary-blue); /* Cursor glow */
         }
         
         @keyframes blink {
@@ -718,124 +499,87 @@
             50% { opacity: 0; }
         }
         
-        @keyframes cursor-pulse {
-            0%, 100% { box-shadow: 0 0 10px rgba(100, 150, 255, 0.7); }
-            50% { box-shadow: 0 0 15px rgba(100, 150, 255, 1); }
-        }
-        
-        /* Neon border effect */
-        .neon-border {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border-radius: 16px;
-            pointer-events: none;
-            z-index: -1;
-            box-shadow: 0 0 20px rgba(100, 150, 255, 0.3),
-                        inset 0 0 20px rgba(100, 150, 255, 0.2);
-            animation: neon-flicker 3s infinite alternate;
-        }
-        
-        @keyframes neon-flicker {
-            0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
-                box-shadow: 0 0 20px rgba(100, 150, 255, 0.3),
-                            inset 0 0 20px rgba(100, 150, 255, 0.2);
-            }
-            20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
-                box-shadow: 0 0 25px rgba(100, 150, 255, 0.4),
-                            inset 0 0 25px rgba(100, 150, 255, 0.3);
-            }
-        }
-        
-        /* Responsive design */
-        @media (max-width: 800px) {
+        @media (max-width: 750px) {
             .container {
                 width: 95%;
                 height: auto;
-                min-height: 500px;
-                margin: 20px 0;
+                min-height: 550px; /* Slightly increased min-height for mobile */
+                padding: 10px 0;
+            }
+            
+            .profile-card {
+                padding: 25px; /* Reduced padding for mobile */
             }
             
             .profile-content {
                 flex-direction: column;
-                gap: 25px;
+                gap: 25px; /* Adjusted gap */
             }
             
             .profile-left {
                 width: 100%;
+                text-align: center; /* Center align for mobile */
             }
-            
-            .gamer-name {
-                text-align: center;
-                font-size: 1.8rem;
-            }
-            
-            .gamer-tag {
-                text-align: center;
-                font-size: 1rem;
-            }
-            
-            .audio-control {
-                top: 15px;
-                left: 15px;
-                width: 45px;
-                height: 45px;
-                font-size: 1.2rem;
-            }
-            
-            .click-text {
-                font-size: 2.5rem;
-            }
-            
-            .click-subtext {
-                font-size: 1.2rem;
-            }
-            
-            .profile-description {
-                max-height: 150px;
-            }
-            
-            .stats {
-                margin: 20px 0;
-            }
-            
-            .stat-value {
-                font-size: 1.8rem;
-            }
-            
-            .stat-label {
-                font-size: 0.8rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .click-text {
-                font-size: 2rem;
-            }
-            
-            .click-subtext {
-                font-size: 1rem;
-            }
-            
+
             .profile-pic {
                 width: 120px;
                 height: 120px;
             }
             
             .gamer-name {
-                font-size: 1.5rem;
-                height: 40px;
+                text-align: center;
+                font-size: 1.8rem;
+                height: auto; /* Allow height to adjust */
             }
             
+            .gamer-tag {
+                text-align: center;
+                font-size: 0.95rem;
+            }
+            
+            .stats {
+                flex-wrap: wrap; /* Allow stats to wrap */
+                justify-content: center;
+                gap: 15px; /* Gap between stats */
+            }
+
+            .stat {
+                padding: 0 10px;
+            }
+
             .stat-value {
                 font-size: 1.5rem;
             }
+
+            .stat-label {
+                font-size: 0.7rem;
+            }
             
+            .audio-control {
+                top: 15px;
+                left: 15px;
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
+            }
+            
+            .click-text {
+                font-size: 2.5rem;
+                letter-spacing: 2px;
+            }
+            
+            .click-subtext {
+                font-size: 1.1rem;
+                letter-spacing: 1px;
+            }
+            
+            .profile-description {
+                max-height: 150px; /* Adjusted max-height for mobile */
+                padding: 15px;
+            }
             .social-link {
-                width: 42px;
-                height: 42px;
+                width: 40px;
+                height: 40px;
                 font-size: 1.1rem;
             }
         }
@@ -847,36 +591,29 @@
         Your browser does not support HTML5 video.
     </video>
     <div class="video-overlay"></div>
-    <div class="cyber-glow"></div>
     
-    <!-- Custom bomb cursor -->
     <div class="custom-cursor" id="customCursor">💣</div>
     
-    <!-- Click Interface Overlay -->
     <div class="click-overlay" id="clickOverlay">
         <div class="click-content">
             <div class="click-text">WELCOME</div>
-            <div class="click-subtext">TO MY GAMER PROFILE</div>
+            <div class="click-subtext">TO MY PROFILE</div>
             <div class="click-icon">
                 <i class="fas fa-chevron-down"></i>
             </div>
         </div>
     </div>
     
-    <!-- Audio Control -->
     <div class="audio-control" id="audioControl">
         <i class="fas fa-volume-mute"></i>
     </div>
     
-    <!-- Snowflakes will be generated here by JavaScript -->
     <div id="snow-container"></div>
     
-    <!-- Particles will be generated here -->
     <div id="particles"></div>
     
     <div class="container">
         <div class="profile-card">
-            <div class="neon-border"></div>
             <div class="profile-content">
                 <div class="profile-left">
                     <img src="https://i.ibb.co/TBmqLz9d/496873927-17866707426383012-4083310942673646977-n.jpg" alt="Profile Picture" class="profile-pic">
@@ -904,25 +641,25 @@
                         <div class="description-item">
                             <span class="bullet">◉</span>
                             <div class="description-text">
-                                <strong>Elite Gamer</strong> with over a decade of experience across multiple platforms and genres
+                                <strong>Hello, world!</strong> I'm an avid gamer and passionate developer with over a decade of experience in the digital realm. I thrive on bringing ideas to life through code and exploring the vast landscapes of virtual worlds. My dedication is unwavering, and I'm always available to dive into new challenges.
                             </div>
                         </div>
                         <div class="description-item">
                             <span class="bullet">◉</span>
                             <div class="description-text">
-                                <strong>Tech Specialist</strong> with deep knowledge of hardware optimization and performance tuning
+                                <strong>Skills & Interests:</strong> Beyond gaming, I specialize in web development, focusing on creating immersive and interactive user experiences. My tech stack includes HTML, CSS, JavaScript, and various front-end frameworks. I'm also deeply interested in cybersecurity and AI.
                             </div>
                         </div>
                         <div class="description-item">
                             <span class="bullet">◉</span>
                             <div class="description-text">
-                                <strong>Community Leader</strong> organizing tournaments and mentoring new players
+                                <strong>Gaming Passion:</strong> From competitive FPS to expansive RPGs, I enjoy a wide range of games. I believe gaming is not just a hobby but a platform for creativity, problem-solving, and building communities. Let's connect and share our gaming adventures!
                             </div>
                         </div>
                         <div class="description-item">
                             <span class="bullet">◉</span>
                             <div class="description-text">
-                                <strong>Content Creator</strong> sharing gaming insights and tech reviews
+                                <strong>Connect with me:</strong> I'm always looking to collaborate on exciting projects or just chat about the latest in gaming and tech. Feel free to reach out via any of the social links below. Your ideas are welcome!
                             </div>
                         </div>
                     </div>
@@ -934,7 +671,7 @@
                         <a href="https://www.instagram.com/hichemajm22/" class="social-link instagram" target="_blank">
                             <i class="fab fa-instagram"></i>
                         </a>
-                        <a href="#" class="social-link twitter" target="_blank">
+                        <a href="https://twitter.com/yourusername" class="social-link twitter" target="_blank">
                             <i class="fab fa-twitter"></i>
                         </a>
                         <a href="https://discordapp.com/users/604491708780249109" class="social-link discord" target="_blank">
@@ -950,7 +687,7 @@
     </div>
     
     <script>
-        // Anti-inspect code with enhanced protection
+        // Anti-inspect code
         function preventInspect() {
             // Disable right click
             document.addEventListener('contextmenu', function(e) {
@@ -958,57 +695,32 @@
                 showAntiInspectMessage();
             });
             
-            // Disable keyboard shortcuts
+            // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C, Ctrl+U
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'F12' || 
                     (e.ctrlKey && e.shiftKey && e.key === 'I') || 
                     (e.ctrlKey && e.shiftKey && e.key === 'J') || 
                     (e.ctrlKey && e.shiftKey && e.key === 'C') || 
-                    (e.ctrlKey && e.key === 'U') ||
-                    (e.key === 'PrintScreen')) {
+                    (e.ctrlKey && e.key === 'U')) {
                     e.preventDefault();
                     showAntiInspectMessage();
                 }
             });
             
-            // Prevent opening dev tools by other methods
+            // Prevent opening dev tools by other methods (less reliable)
             function detectDevTools() {
                 const widthThreshold = window.outerWidth - window.innerWidth > 160;
                 const heightThreshold = window.outerHeight - window.innerHeight > 160;
-                const orientationChanged = window.screen.orientation.angle !== 0;
                 
-                if ((widthThreshold || heightThreshold || orientationChanged) && !window.debugging) {
+                if ((widthThreshold || heightThreshold) && !window.debugging) {
                     showAntiInspectMessage();
-                    document.body.innerHTML = `
-                        <div style="
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                            height: 100vh;
-                            background: #000;
-                            color: #ff0000;
-                            font-family: 'Orbitron', sans-serif;
-                            text-align: center;
-                            padding: 20px;
-                        ">
-                            <div>
-                                <h1 style="font-size: 2rem; margin-bottom: 20px; text-shadow: 0 0 10px #ff0000;">DEVELOPER TOOLS DETECTED</h1>
-                                <p style="color: #ccc; font-size: 1rem;">This action has been logged for security purposes</p>
-                            </div>
-                        </div>
-                    `;
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 2000);
+                    // Optionally, you could redirect or clear content
+                    // document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#000;color:#fff;font-family:Arial;"><h1>Developer Tools Detected</h1></div>';
+                    // window.location.reload(); 
                 }
             }
             
-            setInterval(detectDevTools, 500);
-            
-            // Prevent iframe embedding
-            if (window.self !== window.top) {
-                window.top.location = window.self.location;
-            }
+            setInterval(detectDevTools, 1000);
         }
         
         function showAntiInspectMessage() {
@@ -1016,134 +728,145 @@
             notification.style.position = 'fixed';
             notification.style.bottom = '20px';
             notification.style.right = '20px';
-            notification.style.background = 'rgba(255, 0, 0, 0.9)';
+            notification.style.background = 'rgba(255, 0, 0, 0.9)'; /* More opaque */
             notification.style.color = 'white';
-            notification.style.padding = '15px 20px';
-            notification.style.borderRadius = '10px';
+            notification.style.padding = '15px 20px'; /* Adjusted padding */
+            notification.style.borderRadius = '10px'; /* More rounded */
             notification.style.zIndex = '10000';
-            notification.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.3)';
-            notification.style.transform = 'translateY(30px)';
+            notification.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.4)'; /* Stronger shadow */
+            notification.style.transform = 'translateY(40px)'; /* Further initial translateY */
             notification.style.opacity = '0';
-            notification.style.transition = 'all 0.3s ease';
-            notification.style.display = 'flex';
-            notification.style.alignItems = 'center';
-            notification.style.gap = '10px';
-            notification.style.fontFamily = "'Rajdhani', sans-serif";
-            notification.style.fontWeight = '600';
-            notification.innerHTML = `
-                <i class="fas fa-lock" style="font-size: 1.2rem;"></i>
-                <span>Developer tools are disabled</span>
-            `;
+            notification.style.transition = 'all 0.4s ease-out'; /* Smoother transition */
+            notification.innerHTML = '<i class="fas fa-lock" style="margin-right: 8px;"></i> Developer tools are disabled for this page';
             document.body.appendChild(notification);
             
             setTimeout(() => {
                 notification.style.transform = 'translateY(0)';
                 notification.style.opacity = '1';
-            }, 10);
+            }, 50);
             
             setTimeout(() => {
-                notification.style.transform = 'translateY(30px)';
+                notification.style.transform = 'translateY(40px)';
                 notification.style.opacity = '0';
-                setTimeout(() => notification.remove(), 300);
-            }, 3000);
+                setTimeout(() => notification.remove(), 400); /* Match transition duration */
+            }, 3500); /* Display longer */
         }
         
-        // Enhanced snow effect with different shapes and movements
+        // Enhanced snow effect with smaller, more subtle flakes
         function createSnow() {
             const snowContainer = document.getElementById('snow-container');
-            const snowflakes = ['❄', '❅', '❆', '✻', '✼', '✽', '✾', '✦', '✧', '★'];
+            const snowflakes = ['❄', '❅', '❆', '✻', '✼', '✽']; // Fewer, more distinct snowflakes
             
-            for (let i = 0; i < 80; i++) {
+            for (let i = 0; i < 75; i++) { // More snowflakes
                 const snow = document.createElement('div');
                 snow.className = 'snow';
                 snow.innerHTML = snowflakes[Math.floor(Math.random() * snowflakes.length)];
                 
-                // Random properties
+                // Random positioning
                 snow.style.left = Math.random() * 100 + 'vw';
-                snow.style.opacity = Math.random() * 0.8 + 0.2;
-                snow.style.fontSize = (Math.random() * 8 + 6) + 'px';
+                snow.style.opacity = Math.random() * 0.6 + 0.2; // Softer opacity range
+                snow.style.fontSize = (Math.random() * 5 + 6) + 'px'; // Varied size
                 
-                // Animation with different speeds and movements
-                const animationDuration = Math.random() * 20 + 10;
+                // Animation with different speeds
+                const animationDuration = Math.random() * 20 + 10; // Longer, more varied duration
                 snow.style.animationDuration = `${animationDuration}s`;
-                snow.style.animationDelay = Math.random() * 10 + 's';
+                snow.style.animationDelay = Math.random() * 8 + 's'; // Longer delay for staggered effect
                 
                 // Random horizontal movement
-                const horizontalMovement = Math.random() * 100 - 50;
+                const horizontalMovement = Math.random() * 120 - 60; // Wider horizontal drift
                 snow.style.transform = `translateX(${horizontalMovement}px)`;
-                
-                // Random rotation
-                snow.style.animationName = `fall-${Math.floor(Math.random() * 3)}`;
                 
                 snowContainer.appendChild(snow);
             }
-            
-            // Add different falling animations
-            const snowStyles = document.createElement('style');
-            snowStyles.innerHTML = `
-                @keyframes fall-0 {
-                    to { transform: translateY(100vh) translateX(50px) rotate(360deg); }
-                }
-                @keyframes fall-1 {
-                    to { transform: translateY(100vh) translateX(-30px) rotate(-360deg); }
-                }
-                @keyframes fall-2 {
-                    to { transform: translateY(100vh) translateX(0) rotate(180deg); }
-                }
-            `;
-            document.head.appendChild(snowStyles);
         }
         
-        // Floating particles with more dynamic movement
+        // Floating particles effect
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
-            const colors = [
-                'rgba(100, 150, 255, 0.3)',
-                'rgba(100, 200, 255, 0.25)',
-                'rgba(150, 100, 255, 0.25)',
-                'rgba(255, 100, 150, 0.2)',
-                'rgba(100, 255, 200, 0.2)'
-            ];
+            const colors = ['rgba(100, 150, 255, 0.2)', 'rgba(100, 200, 255, 0.15)', 'rgba(150, 100, 255, 0.15)'];
             
-            for (let i = 0; i < 20; i++) {
+            for (let i = 0; i < 25; i++) { // More particles
                 const particle = document.createElement('div');
                 particle.className = 'particle';
                 
                 // Random properties
-                const size = Math.random() * 8 + 4;
+                const size = Math.random() * 8 + 4; // Larger and more varied sizes
                 particle.style.width = `${size}px`;
                 particle.style.height = `${size}px`;
                 particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-                particle.style.opacity = Math.random() * 0.6 + 0.2;
+                particle.style.opacity = Math.random() * 0.6 + 0.4; // More opaque
                 
                 // Random positioning
                 particle.style.left = Math.random() * 100 + 'vw';
                 particle.style.top = Math.random() * 100 + 'vh';
                 
-                // Set random movement variables
-                const randomX = (Math.random() * 100 - 50) + 'px';
-                const randomY = (Math.random() * 100 - 50) + 'px';
-                particle.style.setProperty('--random-x', randomX);
-                particle.style.setProperty('--random-y', randomY);
-                
                 // Animation
-                const duration = Math.random() * 30 + 15;
+                const duration = Math.random() * 40 + 20; // Longer, slower animation
                 particle.style.animation = `float ${duration}s linear infinite`;
-                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDelay = Math.random() * 15 + 's'; // Longer delay
                 
                 particlesContainer.appendChild(particle);
             }
+            
+            // Add CSS for particle animation (optimized for better variation)
+            const style = document.createElement('style');
+            style.innerHTML += `
+                @keyframes float {
+                    0% {
+                        transform: translate(0, 0) scale(1) rotate(0deg);
+                        opacity: var(--initial-opacity, 0.5);
+                    }
+                    25% {
+                        transform: translate(var(--p1x, 10px), var(--p1y, -15px)) scale(var(--s1, 1.1)) rotate(var(--r1, 90deg));
+                        opacity: var(--o1, 0.6);
+                    }
+                    50% {
+                        transform: translate(var(--p2x, -10px), var(--p2y, 15px)) scale(var(--s2, 0.9)) rotate(var(--r2, 180deg));
+                        opacity: var(--o2, 0.4);
+                    }
+                    75% {
+                        transform: translate(var(--p3x, 15px), var(--p3y, 5px)) scale(var(--s3, 1.05)) rotate(var(--r3, 270deg));
+                        opacity: var(--o3, 0.7);
+                    }
+                    100% {
+                        transform: translate(0, 0) scale(1) rotate(360deg);
+                        opacity: var(--initial-opacity, 0.5);
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+
+            // Apply custom CSS variables for each particle for unique animation paths
+            particlesContainer.querySelectorAll('.particle').forEach(p => {
+                p.style.setProperty('--initial-opacity', (Math.random() * 0.2 + 0.4).toFixed(2));
+                p.style.setProperty('--p1x', (Math.random() * 30 - 15) + 'px');
+                p.style.setProperty('--p1y', (Math.random() * 30 - 15) + 'px');
+                p.style.setProperty('--s1', (Math.random() * 0.2 + 1).toFixed(2));
+                p.style.setProperty('--r1', (Math.random() * 360) + 'deg');
+                p.style.setProperty('--o1', (Math.random() * 0.2 + 0.5).toFixed(2));
+
+                p.style.setProperty('--p2x', (Math.random() * 30 - 15) + 'px');
+                p.style.setProperty('--p2y', (Math.random() * 30 - 15) + 'px');
+                p.style.setProperty('--s2', (Math.random() * 0.2 + 0.8).toFixed(2));
+                p.style.setProperty('--r2', (Math.random() * 360) + 'deg');
+                p.style.setProperty('--o2', (Math.random() * 0.2 + 0.3).toFixed(2));
+
+                p.style.setProperty('--p3x', (Math.random() * 30 - 15) + 'px');
+                p.style.setProperty('--p3y', (Math.random() * 30 - 15) + 'px');
+                p.style.setProperty('--s3', (Math.random() * 0.2 + 0.9).toFixed(2));
+                p.style.setProperty('--r3', (Math.random() * 360) + 'deg');
+                p.style.setProperty('--o3', (Math.random() * 0.2 + 0.6).toFixed(2));
+            });
         }
         
-        // Custom bomb cursor with explosion trail and fire effect
+        // Custom bomb cursor with explosion trail effect
         function setupCustomCursor() {
             const cursor = document.getElementById('customCursor');
             let lastX = 0;
             let lastY = 0;
             let lastTime = 0;
-            const explosionInterval = 40; // milliseconds between explosions
+            const explosionInterval = 40; // More frequent explosions
             let lastExplosionTime = 0;
-            let lastFireTime = 0;
             
             document.addEventListener('mousemove', (e) => {
                 const now = Date.now();
@@ -1158,15 +881,9 @@
                 const speed = distance / deltaTime;
                 
                 // Create explosion trail when moving fast enough
-                if (now - lastExplosionTime > explosionInterval && speed > 0.1) {
+                if (now - lastExplosionTime > explosionInterval && speed > 0.2) { // Higher speed threshold
                     createExplosion(e.clientX, e.clientY, deltaX, deltaY, speed);
                     lastExplosionTime = now;
-                }
-                
-                // Create fire trail more frequently
-                if (now - lastFireTime > explosionInterval / 2) {
-                    createFireTrail(e.clientX, e.clientY);
-                    lastFireTime = now;
                 }
                 
                 lastX = e.clientX;
@@ -1176,34 +893,33 @@
             
             function createExplosion(x, y, deltaX, deltaY, speed) {
                 // Create multiple explosion particles
-                const particleCount = 3 + Math.floor(speed / 3);
+                const particleCount = 4 + Math.floor(speed / 4); // More particles based on speed
                 
                 for (let i = 0; i < particleCount; i++) {
                     const particle = document.createElement('div');
                     particle.className = 'explosion-particle';
                     
                     // Position particle slightly behind cursor
-                    particle.style.left = `${x - deltaX * 0.1}px`;
-                    particle.style.top = `${y - deltaY * 0.1}px`;
+                    particle.style.left = `${x - deltaX * 0.05}px`; // Closer to cursor
+                    particle.style.top = `${y - deltaY * 0.05}px`;
                     
                     // Calculate random direction based on movement
                     const angle = Math.atan2(deltaY, deltaX);
-                    const randomAngle = angle + (Math.random() * 1.5 - 0.75);
-                    const distance = 15 + Math.random() * 40;
+                    const randomAngle = angle + (Math.random() * 1.8 - 0.9); // Wider spread
+                    const distance = 15 + Math.random() * 40; // Further distance
                     
                     // Set CSS variables for animation
                     particle.style.setProperty('--tx', `${Math.cos(randomAngle) * distance}px`);
                     particle.style.setProperty('--ty', `${Math.sin(randomAngle) * distance}px`);
                     
                     // Random size
-                    const size = 6 + Math.random() * 12;
+                    const size = 6 + Math.random() * 12; // Larger particles
                     particle.style.width = `${size}px`;
                     particle.style.height = `${size}px`;
                     
                     // Random color variation
-                    const hue = 15 + Math.random() * 25; // Orange-red range
-                    const saturation = 80 + Math.random() * 20;
-                    particle.style.background = `radial-gradient(circle, hsl(${hue}, ${saturation}%, 60%), hsl(${hue}, ${saturation}%, 40%))`;
+                    const hue = 15 + Math.random() * 30; // More orange-red range
+                    particle.style.background = `radial-gradient(circle, hsl(${hue}, 100%, 65%), hsl(${hue}, 100%, 45%))`;
                     
                     document.body.appendChild(particle);
                     
@@ -1213,34 +929,9 @@
                     }, 1000);
                 }
             }
-            
-            function createFireTrail(x, y) {
-                const fire = document.createElement('div');
-                fire.className = 'fire-trail';
-                
-                // Position fire at cursor
-                fire.style.left = `${x}px`;
-                fire.style.top = `${y}px`;
-                
-                // Random size
-                const size = 15 + Math.random() * 25;
-                fire.style.width = `${size}px`;
-                fire.style.height = `${size}px`;
-                
-                // Random color variation
-                const hue = 15 + Math.random() * 25; // Orange-red range
-                fire.style.background = `radial-gradient(circle, hsla(${hue}, 100%, 50%, 0.8), transparent 70%)`;
-                
-                document.body.appendChild(fire);
-                
-                // Remove after animation completes
-                setTimeout(() => {
-                    fire.remove();
-                }, 500);
-            }
         }
         
-        // TeamSpeak connection function with enhanced UI
+        // TeamSpeak connection function
         function connectTeamSpeak() {
             const tsAddress = "ts3server://Skyness";
             
@@ -1249,61 +940,53 @@
             
             // Fallback to regular teamspeak:// protocol if needed
             setTimeout(() => {
-                window.location.href = `teamspeak://Skyness?port=12673`;
+                window.location.href = `teamspeak://Skyness?port=12673`; // Ensure port is included for robustness
             }, 100);
             
             // Final fallback to TeamSpeak download page
             setTimeout(() => {
-                window.open(`https://www.teamspeak.com/en/download/`, '_blank');
-            }, 500);
+                // Check if the user is still on the same page (meaning TS client didn't launch)
+                // This is a rough check and might not be perfect.
+                const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+                if (!/Teamspeak|TS3/i.test(userAgent)) { // Basic check for TS client presence
+                    window.open(`https://www.teamspeak.com/en/downloads/`, '_blank'); // Corrected download URL
+                }
+            }, 500); // Increased timeout slightly
             
-            // Show enhanced notification
+            // Show notification
             const notification = document.createElement('div');
             notification.style.position = 'fixed';
             notification.style.bottom = '20px';
             notification.style.right = '20px';
-            notification.style.background = 'rgba(20, 30, 50, 0.9)';
+            notification.style.background = 'rgba(20, 30, 60, 0.9)'; /* Darker, more opaque */
             notification.style.color = 'white';
-            notification.style.padding = '20px';
-            notification.style.borderRadius = '12px';
-            notification.style.borderLeft = '4px solid rgba(74, 111, 165, 0.7)';
+            notification.style.padding = '18px 25px'; /* Larger padding */
+            notification.style.borderRadius = '12px'; /* More rounded */
+            notification.style.borderLeft = '5px solid rgba(74, 111, 165, 0.8)'; /* Thicker, more opaque border */
             notification.style.zIndex = '1000';
-            notification.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.3)';
-            notification.style.transform = 'translateY(30px)';
+            notification.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.25)';
+            notification.style.transform = 'translateY(40px)';
             notification.style.opacity = '0';
-            notification.style.transition = 'all 0.3s ease';
-            notification.style.width = '280px';
-            notification.style.fontFamily = "'Rajdhani', sans-serif";
+            notification.style.transition = 'all 0.4s ease-out';
             notification.innerHTML = `
-                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
-                    <i class="fab fa-teamspeak" style="font-size: 1.8rem; color: #4A6FA5;"></i>
-                    <div>
-                        <h3 style="margin: 0; font-weight: 700; color: #64b5f6;">Connecting to TeamSpeak</h3>
-                        <p style="margin: 5px 0 0; font-size: 0.9rem; opacity: 0.8;">Opening TeamSpeak client...</p>
-                    </div>
-                </div>
-                <div style="background: rgba(0, 0, 0, 0.2); border-radius: 6px; padding: 10px; margin-top: 10px;">
-                    <p style="margin: 0; font-family: monospace; font-size: 0.9rem;">
-                        <span style="color: #64b5f6;">Server:</span> Skyness<br>
-                        <span style="color: #64b5f6;">Port:</span> 12673
-                    </p>
-                </div>
+                <p style="margin-bottom: 10px; font-weight: 600; font-size: 1.1rem;"><i class="fas fa-headset" style="margin-right: 10px;"></i>Connecting to TeamSpeak server:</p>
+                <p style="font-family: 'Orbitron', sans-serif; font-size: 1.2rem; color: #82b1ff; text-shadow: 0 0 8px rgba(130, 177, 255, 0.4);">Skyness</p>
             `;
             document.body.appendChild(notification);
             
             setTimeout(() => {
                 notification.style.transform = 'translateY(0)';
                 notification.style.opacity = '1';
-            }, 10);
+            }, 50);
             
             setTimeout(() => {
-                notification.style.transform = 'translateY(30px)';
+                notification.style.transform = 'translateY(40px)';
                 notification.style.opacity = '0';
-                setTimeout(() => notification.remove(), 300);
-            }, 4000);
+                setTimeout(() => notification.remove(), 400);
+            }, 4000); // Display longer
         }
         
-        // Audio control for video background with enhanced feedback
+        // Audio control for video background
         const videoBg = document.getElementById('video-bg');
         const audioControl = document.getElementById('audioControl');
         let isMuted = true;
@@ -1315,196 +998,94 @@
             if (isMuted) {
                 videoBg.muted = false;
                 audioControl.innerHTML = '<i class="fas fa-volume-up"></i>';
-                audioControl.style.color = '#64b5f6';
-                audioControl.style.boxShadow = '0 0 20px rgba(100, 150, 255, 0.6)';
+                audioControl.style.color = 'var(--primary-blue)';
                 
-                // Create sound waves effect
-                createSoundWaves();
-                
-                // Try to play the video
+                // Try to play the video (required for some mobile browsers)
                 videoBg.play().catch(e => {
                     console.log("Video playback failed:", e);
-                    showAudioError();
+                    // If play fails, revert to muted icon
+                    audioControl.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                    audioControl.style.color = '#ff6b6b';
+                    isMuted = true;
+                    videoBg.muted = true;
                 });
             } else {
                 videoBg.muted = true;
                 audioControl.innerHTML = '<i class="fas fa-volume-mute"></i>';
                 audioControl.style.color = '#ff6b6b';
-                audioControl.style.boxShadow = '0 0 20px rgba(255, 107, 107, 0.6)';
             }
             isMuted = !isMuted;
             
             // Pulse animation for audio control
-            audioControl.style.animation = 'pulse 0.5s ease';
+            audioControl.style.animation = 'pulse 0.6s ease';
             setTimeout(() => {
                 audioControl.style.animation = '';
-            }, 500);
+            }, 600);
         });
         
-        function createSoundWaves() {
-            for (let i = 0; i < 3; i++) {
-                const wave = document.createElement('div');
-                wave.style.position = 'fixed';
-                wave.style.top = '25px';
-                wave.style.left = '25px';
-                wave.style.width = '50px';
-                wave.style.height = '50px';
-                wave.style.borderRadius = '50%';
-                wave.style.border = '2px solid rgba(100, 150, 255, 0.6)';
-                wave.style.pointerEvents = 'none';
-                wave.style.zIndex = '99';
-                wave.style.transform = 'scale(0)';
-                wave.style.opacity = '1';
-                wave.style.animation = `sound-wave ${0.5 + i * 0.2}s ease-out forwards`;
-                document.body.appendChild(wave);
-                
-                setTimeout(() => {
-                    wave.remove();
-                }, 1000);
+        // Add pulse animation for audio control
+        const pulseStyle = document.createElement('style');
+        pulseStyle.innerHTML = `
+            @keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.25); } /* More pronounced pulse */
+                100% { transform: scale(1); }
             }
-            
-            // Add sound wave animation
-            const waveStyle = document.createElement('style');
-            waveStyle.innerHTML = `
-                @keyframes sound-wave {
-                    0% { transform: scale(0); opacity: 1; }
-                    100% { transform: scale(3); opacity: 0; }
-                }
-            `;
-            document.head.appendChild(waveStyle);
-        }
+        `;
+        document.head.appendChild(pulseStyle);
         
-        function showAudioError() {
-            audioControl.innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
-            audioControl.style.color = '#ff6b6b';
-            audioControl.style.boxShadow = '0 0 20px rgba(255, 107, 107, 0.6)';
-            
-            setTimeout(() => {
-                if (isMuted) {
-                    audioControl.innerHTML = '<i class="fas fa-volume-mute"></i>';
-                } else {
-                    audioControl.innerHTML = '<i class="fas fa-volume-up"></i>';
-                }
-            }, 2000);
-        }
-        
-        // Enhanced 3D parallax effect with depth
+        // Enhanced 3D parallax effect
         document.addEventListener('mousemove', (e) => {
-            const xAxis = (window.innerWidth / 2 - e.pageX) / 30;
-            const yAxis = (window.innerHeight / 2 - e.pageY) / 30;
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 35; // Reduced sensitivity
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 35;
             const card = document.querySelector('.profile-card');
-            card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg) translateY(-5px)`;
-            
-            // Add depth effect to elements
-            const profilePic = document.querySelector('.profile-pic');
-            const gamerName = document.querySelector('.gamer-name');
-            const socialLinks = document.querySelectorAll('.social-link');
-            
-            profilePic.style.transform = `translateZ(${20 + yAxis * 2}px)`;
-            gamerName.style.transform = `translateZ(${10 + xAxis}px)`;
-            
-            socialLinks.forEach((link, index) => {
-                const depth = 10 + (index % 2 ? xAxis : yAxis);
-                link.style.transform = `translateZ(${depth}px)`;
-            });
+            card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg) translateY(-8px) translateZ(20px)`; // Add translateZ for depth
         });
         
         // Reset card position when mouse leaves
         document.querySelector('.container').addEventListener('mouseleave', () => {
             const card = document.querySelector('.profile-card');
-            card.style.transform = 'rotateY(0deg) rotateX(0deg)';
-            
-            // Reset depth effects
-            const profilePic = document.querySelector('.profile-pic');
-            const gamerName = document.querySelector('.gamer-name');
-            const socialLinks = document.querySelectorAll('.social-link');
-            
-            profilePic.style.transform = 'translateZ(20px)';
-            gamerName.style.transform = 'translateZ(10px)';
-            socialLinks.forEach(link => {
-                link.style.transform = 'translateZ(10px)';
-            });
+            card.style.transform = 'rotateY(0deg) rotateX(0deg) translateY(0) translateZ(0)';
         });
         
-        // Click overlay handler with enhanced animation
+        // Click overlay handler - Faster transition
         const clickOverlay = document.getElementById('clickOverlay');
         clickOverlay.addEventListener('click', () => {
             // Add animation to click overlay
-            const clickContent = clickOverlay.querySelector('.click-content');
-            clickContent.style.transform = 'scale(0.9) rotateX(10deg)';
-            clickContent.style.opacity = '0.8';
-            
-            // Add ripple effect
-            const ripple = document.createElement('div');
-            ripple.style.position = 'absolute';
-            ripple.style.top = '50%';
-            ripple.style.left = '50%';
-            ripple.style.width = '10px';
-            ripple.style.height = '10px';
-            ripple.style.background = 'rgba(100, 150, 255, 0.5)';
-            ripple.style.borderRadius = '50%';
-            ripple.style.transform = 'translate(-50%, -50%) scale(0)';
-            ripple.style.opacity = '1';
-            ripple.style.pointerEvents = 'none';
-            ripple.style.zIndex = '1001';
-            ripple.style.animation = 'ripple 0.6s ease-out forwards';
-            clickOverlay.appendChild(ripple);
-            
-            // Add ripple animation
-            const rippleStyle = document.createElement('style');
-            rippleStyle.innerHTML = `
-                @keyframes ripple {
-                    0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
-                    100% { transform: translate(-50%, -50%) scale(50); opacity: 0; }
-                }
-            `;
-            document.head.appendChild(rippleStyle);
+            clickOverlay.querySelector('.click-content').style.transform = 'scale(0.8)'; // More dramatic shrink
+            clickOverlay.querySelector('.click-content').style.opacity = '0'; // Fade out content
             
             setTimeout(() => {
                 clickOverlay.classList.add('hidden');
                 videoBg.muted = false;
                 isMuted = false;
                 audioControl.innerHTML = '<i class="fas fa-volume-up"></i>';
-                audioControl.style.color = '#64b5f6';
+                audioControl.style.color = 'var(--primary-blue)';
                 
                 videoBg.play().then(() => {
-                    // Create sound waves effect
-                    createSoundWaves();
+                    // Pulse animation for audio control
+                    audioControl.style.animation = 'pulse 0.6s ease';
+                    setTimeout(() => {
+                        audioControl.style.animation = '';
+                    }, 600);
                 }).catch(e => {
                     console.log("Video playback failed:", e);
-                    showAudioError();
+                    audioControl.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                    audioControl.style.color = '#ff6b6b';
+                    isMuted = true;
+                    videoBg.muted = true;
                 });
-                
-                // Remove ripple after animation
-                setTimeout(() => {
-                    ripple.remove();
-                    rippleStyle.remove();
-                }, 600);
-            }, 300);
+            }, 300); // Reduced delay for quicker disappearance
         });
         
-        // Enhanced typing animation for the name
+        // Typing animation for the name
         function typeWriter(element, text, speed, delay = 0) {
             let i = 0;
             let isDeleting = false;
             let typingSpeed = speed;
-            let iteration = 0;
-            const glitchChars = ['!', '@', '#', '$', '%', '&', '*'];
             
             setTimeout(() => {
                 function type() {
-                    // Occasionally add glitch effect
-                    if (iteration % 10 === 0 && !isDeleting) {
-                        const glitchText = text.substring(0, i) + 
-                            glitchChars[Math.floor(Math.random() * glitchChars.length)] + 
-                            text.substring(i);
-                        element.innerHTML = glitchText + '<span class="typing-cursor"></span>';
-                        
-                        setTimeout(() => {
-                            element.innerHTML = text.substring(0, i) + '<span class="typing-cursor"></span>';
-                        }, 50);
-                    }
-                    
                     const currentText = text.substring(0, i);
                     element.innerHTML = currentText + '<span class="typing-cursor"></span>';
                     
@@ -1512,8 +1093,8 @@
                         i++;
                         if (i > text.length) {
                             isDeleting = true;
-                            typingSpeed = speed * 2;
-                            setTimeout(type, 1000);
+                            typingSpeed = speed * 2.5; // Slower deletion
+                            setTimeout(type, 1500); // Longer pause before deleting
                             return;
                         }
                     } else {
@@ -1521,14 +1102,11 @@
                         if (i === 0) {
                             isDeleting = false;
                             typingSpeed = speed;
-                            iteration++;
+                            setTimeout(type, 800); // Shorter pause before retyping
                         }
                     }
                     
-                    // Random speed variation for more natural typing
-                    const speedVariation = Math.random() * 50 - 25;
-                    
-                    setTimeout(type, typingSpeed + speedVariation);
+                    setTimeout(type, typingSpeed);
                 }
                 
                 type();
@@ -1546,7 +1124,7 @@
             
             // Start typing animation for the name
             const nameElement = document.getElementById('typing-name');
-            typeWriter(nameElement, "Bloodspyre", 100, 500);
+            typeWriter(nameElement, "Bloodspyre", 80, 500); // Faster typing, slight delay
             
             // Make sure video covers entire viewport
             function resizeVideo() {
@@ -1567,36 +1145,18 @@
             videoBg.addEventListener('loadedmetadata', resizeVideo);
             window.addEventListener('resize', resizeVideo);
             
-            // Add floating effect to container
-            const container = document.querySelector('.container');
-            setInterval(() => {
-                container.style.transform = 'translateY(' + (Math.sin(Date.now() / 1000) * 5 + 'px)';
-            }, 50);
-            
-            // Add random glitch effect to name occasionally
-            setInterval(() => {
-                if (Math.random() > 0.95) {
-                    const name = document.querySelector('.gamer-name');
-                    name.style.animation = 'glitch 0.3s linear';
-                    setTimeout(() => {
-                        name.style.animation = '';
-                    }, 300);
+            // Call resize immediately if video metadata is already loaded (e.g., on refresh)
+            if (videoBg.readyState >= 2) { // HAVE_CURRENT_DATA or more
+                resizeVideo();
+            }
+
+            // Obfuscate the source code further
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'u' && e.ctrlKey) {
+                    e.preventDefault();
+                    showAntiInspectMessage();
                 }
-            }, 5000);
-            
-            // Add glitch animation
-            const glitchStyle = document.createElement('style');
-            glitchStyle.innerHTML = `
-                @keyframes glitch {
-                    0% { transform: translate(0); }
-                    20% { transform: translate(-3px, 3px); }
-                    40% { transform: translate(-3px, -3px); }
-                    60% { transform: translate(3px, 3px); }
-                    80% { transform: translate(3px, -3px); }
-                    100% { transform: translate(0); }
-                }
-            `;
-            document.head.appendChild(glitchStyle);
+            });
         };
         
         // Additional obfuscation - disable text selection
@@ -1607,13 +1167,6 @@
         // Disable drag and drop
         document.addEventListener('dragstart', function(e) {
             e.preventDefault();
-        });
-        
-        // Disable image saving
-        document.addEventListener('dragstart', function(e) {
-            if (e.target.tagName === 'IMG') {
-                e.preventDefault();
-            }
         });
     </script>
 </body>
