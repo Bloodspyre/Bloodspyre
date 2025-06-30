@@ -642,6 +642,14 @@
         .support-btn i {
             margin-right: 8px;
         }
+
+        /* Binance icon style */
+        .binance-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            filter: brightness(0) saturate(100%) invert(68%) sepia(80%) saturate(300%) hue-rotate(180deg) brightness(90%) contrast(90%);
+        }
         
         @media (max-width: 750px) {
             .container {
@@ -760,12 +768,12 @@
                 </div>
                 
                 <div class="donation-option">
-                    <h3><i class="fab fa-ethereum"></i> Ethereum</h3>
+                    <h3><img src="https://cryptologos.cc/logos/bnb-bnb-logo.png" alt="Binance" class="binance-icon"> Binance Pay ID</h3>
                     <div class="donation-address-container">
                         <div class="donation-address">
-                            0x71C7656EC7ab88b098defB751B7401B5f6d8976F
+                            123456789
                         </div>
-                        <button class="copy-btn" onclick="copyToClipboard('0x71C7656EC7ab88b098defB751B7401B5f6d8976F')">Copy</button>
+                        <button class="copy-btn" onclick="copyToClipboard('123456789')">Copy</button>
                     </div>
                 </div>
             </div>
