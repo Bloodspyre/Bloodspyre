@@ -12,7 +12,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none !important; /* Disable default cursor */
+            cursor: none !important;
         }
         
         body {
@@ -32,20 +32,18 @@
             position: fixed;
             pointer-events: none;
             z-index: 9999;
-            font-size: 24px; /* Adjust size as needed */
-            color: #64b5f6; /* Blue to match website theme */
-            text-shadow: 0 0 8px rgba(100, 181, 246, 0.6), 0 0 15px rgba(100, 181, 246, 0.4); /* Blue glow */
+            font-size: 24px;
+            color: #64b5f6;
+            text-shadow: 0 0 8px rgba(100, 181, 246, 0.6), 0 0 15px rgba(100, 181, 246, 0.4);
             transform: translate(-50%, -50%);
             transition: transform 0.1s ease, color 0.3s ease;
-            animation: scope-scan 2s infinite linear; /* Added a subtle scan animation */
+            animation: scope-scan 2s infinite linear;
         }
 
         @keyframes scope-scan {
             0% { transform: translate(-50%, -50%) rotate(0deg); }
             100% { transform: translate(-50%, -50%) rotate(360deg); }
         }
-
-        /* Explosion particles CSS removed */
         
         #video-bg {
             position: fixed;
@@ -446,7 +444,7 @@
             50% { opacity: 0; }
         }
 
-        /* Donation Modal Styles */
+        /* Donation Modal Styles - Updated to 650x400 */
         .donation-modal {
             position: fixed;
             top: 0;
@@ -471,8 +469,9 @@
         .donation-content {
             background: rgba(10, 15, 30, 0.9);
             border-radius: 12px;
-            padding: 25px;
-            width: 400px;
+            padding: 30px;
+            width: 650px;
+            height: 400px;
             max-width: 90%;
             max-height: 90vh;
             overflow-y: auto;
@@ -481,6 +480,10 @@
             transform: scale(0.9);
             transition: all 0.3s ease;
             position: relative;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: auto 1fr;
+            gap: 20px;
         }
 
         .donation-modal.active .donation-content {
@@ -488,17 +491,18 @@
         }
 
         .donation-header {
+            grid-column: 1 / -1;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
+            margin-bottom: 10px;
+            padding-bottom: 15px;
             border-bottom: 1px solid rgba(100, 150, 255, 0.2);
         }
 
         .donation-title {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             color: #64b5f6;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
@@ -507,7 +511,7 @@
             background: transparent;
             border: none;
             color: #e0e0e0;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             cursor: pointer;
             transition: color 0.3s ease;
         }
@@ -517,49 +521,58 @@
         }
 
         .donation-option {
-            margin-bottom: 20px;
             background: rgba(10, 20, 40, 0.5);
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 3px solid #64b5f6;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #64b5f6;
+            display: flex;
+            flex-direction: column;
         }
 
         .donation-option h3 {
             display: flex;
             align-items: center;
             font-family: 'Rajdhani', sans-serif;
-            font-size: 1.1rem;
+            font-size: 1.3rem;
             color: #ffffff;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
 
         .donation-option h3 i {
-            margin-right: 10px;
+            margin-right: 12px;
+            font-size: 1.5rem;
             color: #64b5f6;
+        }
+
+        .donation-address-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .donation-address {
             background: rgba(0, 0, 0, 0.3);
-            padding: 10px;
-            border-radius: 6px;
+            padding: 15px;
+            border-radius: 8px;
             font-family: monospace;
             word-break: break-all;
             color: #e0e0e0;
-            font-size: 0.9rem;
+            font-size: 1rem;
             margin-top: 10px;
             position: relative;
+            flex-grow: 1;
         }
 
         .copy-btn {
             position: absolute;
-            right: 5px;
-            top: 5px;
+            right: 10px;
+            top: 10px;
             background: rgba(100, 150, 255, 0.2);
             border: none;
             color: #64b5f6;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.7rem;
+            padding: 5px 12px;
+            border-radius: 5px;
+            font-size: 0.8rem;
             cursor: pointer;
             transition: all 0.3s ease;
         }
@@ -575,13 +588,14 @@
             right: 20px;
             background: rgba(20, 30, 50, 0.9);
             color: white;
-            padding: 10px 20px;
+            padding: 15px 25px;
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             transform: translateY(30px);
             opacity: 0;
             transition: all 0.3s ease;
             z-index: 2100;
+            font-size: 1rem;
         }
 
         .copy-notification.active {
@@ -591,19 +605,19 @@
 
         .donation-qr {
             text-align: center;
-            margin-top: 15px;
+            margin-top: 20px;
         }
 
         .donation-qr img {
-            max-width: 150px;
+            max-width: 180px;
             border-radius: 8px;
             border: 1px solid rgba(100, 150, 255, 0.3);
         }
 
         .donation-qr p {
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             color: #b0b0b0;
-            margin-top: 5px;
+            margin-top: 10px;
         }
 
         /* Donate button styles */
@@ -688,6 +702,30 @@
                 bottom: 15px;
                 right: 15px;
             }
+
+            /* Responsive adjustments for donation modal */
+            .donation-content {
+                grid-template-columns: 1fr;
+                height: auto;
+                padding: 20px;
+            }
+
+            .donation-title {
+                font-size: 1.5rem;
+            }
+
+            .donation-option h3 {
+                font-size: 1.1rem;
+            }
+
+            .donation-address {
+                font-size: 0.9rem;
+                padding: 12px;
+            }
+
+            .donation-qr img {
+                max-width: 140px;
+            }
         }
     </style>
 </head>
@@ -721,7 +759,7 @@
         <i class="fas fa-donate"></i> Support Me
     </button>
     
-    <!-- Donation Modal -->
+    <!-- Donation Modal - Updated to 650x400 -->
     <div class="donation-modal" id="donationModal">
         <div class="donation-content">
             <div class="donation-header">
@@ -731,40 +769,61 @@
             
             <div class="donation-option">
                 <h3><i class="fab fa-bitcoin"></i> Bitcoin</h3>
-                <p>Send BTC to this address:</p>
-                <div class="donation-address">
-                    bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh
-                    <button class="copy-btn" onclick="copyToClipboard('bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh')">Copy</button>
-                </div>
-                <div class="donation-qr">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=bitcoin:bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh" alt="Bitcoin QR Code">
-                    <p>Scan to send Bitcoin</p>
+                <div class="donation-address-container">
+                    <p>Send BTC to this address:</p>
+                    <div class="donation-address">
+                        bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh
+                        <button class="copy-btn" onclick="copyToClipboard('bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh')">Copy</button>
+                    </div>
+                    <div class="donation-qr">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=bitcoin:bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh" alt="Bitcoin QR Code">
+                        <p>Scan to send Bitcoin</p>
+                    </div>
                 </div>
             </div>
             
             <div class="donation-option">
                 <h3><i class="fas fa-coins"></i> USDT (TRC20)</h3>
-                <p>Send USDT to this TRC20 address:</p>
-                <div class="donation-address">
-                    TNPeeaaFB7M7WQnXw5Zk3U1Q1Jk2JvJqJk
-                    <button class="copy-btn" onclick="copyToClipboard('TNPeeaaFB7M7WQnXw5Zk3U1Q1Jk2JvJqJk')">Copy</button>
-                </div>
-                <div class="donation-qr">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=TNPeeaaFB7M7WQnXw5Zk3U1Q1Jk2JvJqJk" alt="USDT QR Code">
-                    <p>Scan to send USDT</p>
+                <div class="donation-address-container">
+                    <p>Send USDT to this TRC20 address:</p>
+                    <div class="donation-address">
+                        TNPeeaaFB7M7WQnXw5Zk3U1Q1Jk2JvJqJk
+                        <button class="copy-btn" onclick="copyToClipboard('TNPeeaaFB7M7WQnXw5Zk3U1Q1Jk2JvJqJk')">Copy</button>
+                    </div>
+                    <div class="donation-qr">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=TNPeeaaFB7M7WQnXw5Zk3U1Q1Jk2JvJqJk" alt="USDT QR Code">
+                        <p>Scan to send USDT</p>
+                    </div>
                 </div>
             </div>
             
             <div class="donation-option">
                 <h3><i class="fab fa-ethereum"></i> Binance Pay</h3>
-                <p>Send BNB or other crypto via Binance Pay ID:</p>
-                <div class="donation-address">
-                    123456789
-                    <button class="copy-btn" onclick="copyToClipboard('123456789')">Copy</button>
+                <div class="donation-address-container">
+                    <p>Send BNB or other crypto via Binance Pay ID:</p>
+                    <div class="donation-address">
+                        123456789
+                        <button class="copy-btn" onclick="copyToClipboard('123456789')">Copy</button>
+                    </div>
+                    <div class="donation-qr">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=binancepay://donate/123456789" alt="Binance Pay QR Code">
+                        <p>Scan for Binance Pay</p>
+                    </div>
                 </div>
-                <div class="donation-qr">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=binancepay://donate/123456789" alt="Binance Pay QR Code">
-                    <p>Scan for Binance Pay</p>
+            </div>
+            
+            <div class="donation-option">
+                <h3><i class="fas fa-wallet"></i> Ethereum</h3>
+                <div class="donation-address-container">
+                    <p>Send ETH or ERC20 tokens to:</p>
+                    <div class="donation-address">
+                        0x71C7656EC7ab88b098defB751B7401B5f6d8976F
+                        <button class="copy-btn" onclick="copyToClipboard('0x71C7656EC7ab88b098defB751B7401B5f6d8976F')">Copy</button>
+                    </div>
+                    <div class="donation-qr">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=ethereum:0x71C7656EC7ab88b098defB751B7401B5f6d8976F" alt="Ethereum QR Code">
+                        <p>Scan to send Ethereum</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -861,13 +920,11 @@
     <script>
         // Anti-inspect code
         function preventInspect() {
-            // Disable right click
             document.addEventListener('contextmenu', function(e) {
                 e.preventDefault();
                 showAntiInspectMessage();
             });
             
-            // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C, Ctrl+U
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'F12' || 
                     (e.ctrlKey && e.shiftKey && e.key === 'I') || 
@@ -879,7 +936,6 @@
                 }
             });
             
-            // Prevent opening dev tools by other methods
             function detectDevTools() {
                 const widthThreshold = window.outerWidth - window.innerWidth > 160;
                 const heightThreshold = window.outerHeight - window.innerHeight > 160;
@@ -923,7 +979,7 @@
             }, 3000);
         }
         
-        // Enhanced snow effect with smaller, more subtle flakes
+        // Enhanced snow effect
         function createSnow() {
             const snowContainer = document.getElementById('snow-container');
             const snowflakes = ['❄', '❅', '❆', '✻', '✼', '✽', '✾', '❄', '❅', '❆'];
@@ -933,17 +989,14 @@
                 snow.className = 'snow';
                 snow.innerHTML = snowflakes[Math.floor(Math.random() * snowflakes.length)];
                 
-                // Random positioning
                 snow.style.left = Math.random() * 100 + 'vw';
                 snow.style.opacity = Math.random() * 0.7 + 0.3;
                 snow.style.fontSize = (Math.random() * 6 + 4) + 'px';
                 
-                // Animation with different speeds
                 const animationDuration = Math.random() * 15 + 10;
                 snow.style.animationDuration = `${animationDuration}s`;
                 snow.style.animationDelay = Math.random() * 5 + 's';
                 
-                // Random horizontal movement
                 const horizontalMovement = Math.random() * 100 - 50;
                 snow.style.transform = `translateX(${horizontalMovement}px)`;
                 
@@ -960,18 +1013,15 @@
                 const particle = document.createElement('div');
                 particle.className = 'particle';
                 
-                // Random properties
                 const size = Math.random() * 6 + 3;
                 particle.style.width = `${size}px`;
                 particle.style.height = `${size}px`;
                 particle.style.background = colors[Math.floor(Math.random() * colors.length)];
                 particle.style.opacity = Math.random() * 0.5 + 0.3;
                 
-                // Random positioning
                 particle.style.left = Math.random() * 100 + 'vw';
                 particle.style.top = Math.random() * 100 + 'vh';
                 
-                // Animation
                 const duration = Math.random() * 30 + 15;
                 particle.style.animation = `float ${duration}s linear infinite`;
                 particle.style.animationDelay = Math.random() * 10 + 's';
@@ -979,7 +1029,6 @@
                 particlesContainer.appendChild(particle);
             }
             
-            // Add CSS for particle animation
             const style = document.createElement('style');
             style.innerHTML = `
                 @keyframes float {
@@ -1013,21 +1062,16 @@
         // TeamSpeak connection function
         function connectTeamSpeak() {
             const tsAddress = "ts3server://Skyness";
-            
-            // Try to launch TeamSpeak directly with ts3server protocol
             window.location.href = tsAddress;
             
-            // Fallback to regular teamspeak:// protocol if needed
             setTimeout(() => {
                 window.location.href = `teamspeak://Skyness?port=12673`;
             }, 100);
             
-            // Final fallback to TeamSpeak download page
             setTimeout(() => {
                 window.open(`https://www.teamspeak.com/en/download/`, '_blank');
             }, 500);
             
-            // Show notification
             const notification = document.createElement('div');
             notification.style.position = 'fixed';
             notification.style.bottom = '20px';
@@ -1065,7 +1109,6 @@
         const audioControl = document.getElementById('audioControl');
         let isMuted = true;
         
-        // Initialize video with muted audio (autoplay requires muted on most browsers)
         videoBg.muted = true;
         
         audioControl.addEventListener('click', () => {
@@ -1073,8 +1116,6 @@
                 videoBg.muted = false;
                 audioControl.innerHTML = '<i class="fas fa-volume-up"></i>';
                 audioControl.style.color = '#64b5f6';
-                
-                // Try to play the video (required for some mobile browsers)
                 videoBg.play().catch(e => {
                     console.log("Video playback failed:", e);
                 });
@@ -1085,14 +1126,12 @@
             }
             isMuted = !isMuted;
             
-            // Pulse animation for audio control
             audioControl.style.animation = 'pulse 0.5s ease';
             setTimeout(() => {
                 audioControl.style.animation = '';
             }, 500);
         });
         
-        // Add pulse animation for audio control
         const pulseStyle = document.createElement('style');
         pulseStyle.innerHTML = `
             @keyframes pulse {
@@ -1111,16 +1150,14 @@
             card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg) translateY(-5px)`;
         });
         
-        // Reset card position when mouse leaves
         document.querySelector('.container').addEventListener('mouseleave', () => {
             const card = document.querySelector('.profile-card');
             card.style.transform = 'rotateY(0deg) rotateX(0deg)';
         });
         
-        // Click overlay handler - Faster transition
+        // Click overlay handler
         const clickOverlay = document.getElementById('clickOverlay');
         clickOverlay.addEventListener('click', () => {
-            // Add animation to click overlay
             clickOverlay.querySelector('.click-content').style.transform = 'scale(0.9)';
             
             setTimeout(() => {
@@ -1131,7 +1168,6 @@
                 audioControl.style.color = '#64b5f6';
                 
                 videoBg.play().then(() => {
-                    // Pulse animation for audio control
                     audioControl.style.animation = 'pulse 0.5s ease';
                     setTimeout(() => {
                         audioControl.style.animation = '';
@@ -1196,7 +1232,6 @@
                 showCopyNotification();
             }).catch(err => {
                 console.error('Could not copy text: ', err);
-                // Fallback for older browsers
                 const textarea = document.createElement('textarea');
                 textarea.value = text;
                 document.body.appendChild(textarea);
@@ -1218,18 +1253,15 @@
         
         // Initialize effects when page loads
         window.onload = function() {
-            // Activate anti-inspect protection
             preventInspect();
             
             createSnow();
             createParticles();
             setupCustomCursor();
             
-            // Start typing animation for the name
             const nameElement = document.getElementById('typing-name');
             typeWriter(nameElement, "Bloodspyre", 100, 300);
             
-            // Make sure video covers entire viewport
             function resizeVideo() {
                 const video = document.getElementById('video-bg');
                 const videoRatio = video.videoWidth / video.videoHeight;
@@ -1244,11 +1276,9 @@
                 }
             }
             
-            // Set initial size and add resize listener
             videoBg.addEventListener('loadedmetadata', resizeVideo);
             window.addEventListener('resize', resizeVideo);
             
-            // Obfuscate the source code further
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'u' && e.ctrlKey) {
                     e.preventDefault();
@@ -1266,12 +1296,10 @@
             });
         };
         
-        // Additional obfuscation - disable text selection
         document.addEventListener('selectstart', function(e) {
             e.preventDefault();
         });
         
-        // Disable drag and drop
         document.addEventListener('dragstart', function(e) {
             e.preventDefault();
         });
