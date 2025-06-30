@@ -12,7 +12,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none !important;
+            cursor: none !important; /* Disable default cursor */
         }
         
         body {
@@ -43,6 +43,11 @@
         @keyframes scope-scan {
             0% { transform: translate(-50%, -50%) rotate(0deg); }
             100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Enable cursor in donation modal */
+        .donation-modal * {
+            cursor: auto !important;
         }
         
         #video-bg {
@@ -444,7 +449,7 @@
             50% { opacity: 0; }
         }
 
-        /* Donation Modal Styles - Updated to 650x400 */
+        /* Donation Modal Styles - Updated to 500x300 */
         .donation-modal {
             position: fixed;
             top: 0;
@@ -467,23 +472,21 @@
         }
 
         .donation-content {
-            background: rgba(10, 15, 30, 0.9);
+            background: rgba(10, 15, 30, 0.95);
             border-radius: 12px;
-            padding: 30px;
-            width: 650px;
-            height: 400px;
+            padding: 25px;
+            width: 500px;
+            height: 300px;
             max-width: 90%;
             max-height: 90vh;
             overflow-y: auto;
-            box-shadow: 0 10px 30px rgba(0, 89, 255, 0.2);
-            border: 1px solid rgba(100, 150, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 89, 255, 0.3);
+            border: 1px solid rgba(100, 150, 255, 0.4);
             transform: scale(0.9);
             transition: all 0.3s ease;
             position: relative;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            grid-template-rows: auto 1fr;
-            gap: 20px;
+            display: flex;
+            flex-direction: column;
         }
 
         .donation-modal.active .donation-content {
@@ -491,18 +494,17 @@
         }
 
         .donation-header {
-            grid-column: 1 / -1;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             padding-bottom: 15px;
-            border-bottom: 1px solid rgba(100, 150, 255, 0.2);
+            border-bottom: 1px solid rgba(100, 150, 255, 0.3);
         }
 
         .donation-title {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             color: #64b5f6;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
@@ -511,7 +513,7 @@
             background: transparent;
             border: none;
             color: #e0e0e0;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             cursor: pointer;
             transition: color 0.3s ease;
         }
@@ -520,61 +522,69 @@
             color: #ff6b6b;
         }
 
-        .donation-option {
-            background: rgba(10, 20, 40, 0.5);
-            padding: 20px;
-            border-radius: 10px;
-            border-left: 4px solid #64b5f6;
+        .donation-options {
             display: flex;
             flex-direction: column;
+            gap: 15px;
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .donation-option {
+            background: rgba(10, 20, 40, 0.6);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #64b5f6;
+            transition: all 0.3s ease;
+        }
+
+        .donation-option:hover {
+            background: rgba(10, 20, 40, 0.7);
+            transform: translateY(-2px);
         }
 
         .donation-option h3 {
             display: flex;
             align-items: center;
             font-family: 'Rajdhani', sans-serif;
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             color: #ffffff;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         .donation-option h3 i {
-            margin-right: 12px;
-            font-size: 1.5rem;
+            margin-right: 10px;
             color: #64b5f6;
         }
 
         .donation-address-container {
-            flex-grow: 1;
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            gap: 15px;
         }
 
         .donation-address {
             background: rgba(0, 0, 0, 0.3);
-            padding: 15px;
-            border-radius: 8px;
+            padding: 10px;
+            border-radius: 6px;
             font-family: monospace;
             word-break: break-all;
             color: #e0e0e0;
-            font-size: 1rem;
-            margin-top: 10px;
-            position: relative;
+            font-size: 0.9rem;
             flex-grow: 1;
         }
 
         .copy-btn {
-            position: absolute;
-            right: 10px;
-            top: 10px;
             background: rgba(100, 150, 255, 0.2);
             border: none;
             color: #64b5f6;
-            padding: 5px 12px;
-            border-radius: 5px;
+            padding: 8px 12px;
+            border-radius: 6px;
             font-size: 0.8rem;
             cursor: pointer;
             transition: all 0.3s ease;
+            white-space: nowrap;
         }
 
         .copy-btn:hover {
@@ -588,14 +598,13 @@
             right: 20px;
             background: rgba(20, 30, 50, 0.9);
             color: white;
-            padding: 15px 25px;
+            padding: 12px 20px;
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             transform: translateY(30px);
             opacity: 0;
             transition: all 0.3s ease;
             z-index: 2100;
-            font-size: 1rem;
         }
 
         .copy-notification.active {
@@ -603,53 +612,34 @@
             opacity: 1;
         }
 
-        .donation-qr {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .donation-qr img {
-            max-width: 180px;
-            border-radius: 8px;
-            border: 1px solid rgba(100, 150, 255, 0.3);
-        }
-
-        .donation-qr p {
-            font-size: 0.9rem;
-            color: #b0b0b0;
-            margin-top: 10px;
-        }
-
-        /* Donate button styles */
-        .donate-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
+        /* Support Button in Profile */
+        .support-btn {
             background: linear-gradient(135deg, rgba(247, 147, 26, 0.9), rgba(247, 147, 26, 0.7));
             color: white;
             border: none;
-            border-radius: 50px;
-            padding: 12px 25px;
+            border-radius: 8px;
+            padding: 10px 20px;
             font-family: 'Rajdhani', sans-serif;
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 0.9rem;
             box-shadow: 0 4px 15px rgba(247, 147, 26, 0.3);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 100;
+            margin-top: 15px;
             transition: all 0.3s ease;
             backdrop-filter: blur(5px);
+            width: 100%;
         }
 
-        .donate-btn:hover {
+        .support-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 6px 20px rgba(247, 147, 26, 0.4);
             background: linear-gradient(135deg, rgba(247, 147, 26, 0.95), rgba(247, 147, 26, 0.8));
         }
 
-        .donate-btn i {
+        .support-btn i {
             margin-right: 8px;
         }
         
@@ -696,35 +686,21 @@
                 max-height: 120px;
             }
 
-            .donate-btn {
-                padding: 10px 20px;
-                font-size: 0.9rem;
-                bottom: 15px;
-                right: 15px;
-            }
-
-            /* Responsive adjustments for donation modal */
             .donation-content {
-                grid-template-columns: 1fr;
-                height: auto;
                 padding: 20px;
             }
 
             .donation-title {
-                font-size: 1.5rem;
+                font-size: 1.3rem;
             }
 
-            .donation-option h3 {
-                font-size: 1.1rem;
+            .donation-address-container {
+                flex-direction: column;
+                gap: 10px;
             }
 
-            .donation-address {
-                font-size: 0.9rem;
-                padding: 12px;
-            }
-
-            .donation-qr img {
-                max-width: 140px;
+            .copy-btn {
+                width: 100%;
             }
         }
     </style>
@@ -753,13 +729,8 @@
     <div class="audio-control" id="audioControl">
         <i class="fas fa-volume-mute"></i>
     </div>
-
-    <!-- Donate Button -->
-    <button class="donate-btn" id="donateBtn">
-        <i class="fas fa-donate"></i> Support Me
-    </button>
     
-    <!-- Donation Modal - Updated to 650x400 -->
+    <!-- Donation Modal - Updated to 500x300 -->
     <div class="donation-modal" id="donationModal">
         <div class="donation-content">
             <div class="donation-header">
@@ -767,62 +738,34 @@
                 <button class="close-donation" id="closeDonation">&times;</button>
             </div>
             
-            <div class="donation-option">
-                <h3><i class="fab fa-bitcoin"></i> Bitcoin</h3>
-                <div class="donation-address-container">
-                    <p>Send BTC to this address:</p>
-                    <div class="donation-address">
-                        bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh
+            <div class="donation-options">
+                <div class="donation-option">
+                    <h3><i class="fab fa-bitcoin"></i> Bitcoin</h3>
+                    <div class="donation-address-container">
+                        <div class="donation-address">
+                            bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh
+                        </div>
                         <button class="copy-btn" onclick="copyToClipboard('bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh')">Copy</button>
                     </div>
-                    <div class="donation-qr">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=bitcoin:bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh" alt="Bitcoin QR Code">
-                        <p>Scan to send Bitcoin</p>
-                    </div>
                 </div>
-            </div>
-            
-            <div class="donation-option">
-                <h3><i class="fas fa-coins"></i> USDT (TRC20)</h3>
-                <div class="donation-address-container">
-                    <p>Send USDT to this TRC20 address:</p>
-                    <div class="donation-address">
-                        TNPeeaaFB7M7WQnXw5Zk3U1Q1Jk2JvJqJk
+                
+                <div class="donation-option">
+                    <h3><i class="fas fa-coins"></i> USDT (TRC20)</h3>
+                    <div class="donation-address-container">
+                        <div class="donation-address">
+                            TNPeeaaFB7M7WQnXw5Zk3U1Q1Jk2JvJqJk
+                        </div>
                         <button class="copy-btn" onclick="copyToClipboard('TNPeeaaFB7M7WQnXw5Zk3U1Q1Jk2JvJqJk')">Copy</button>
                     </div>
-                    <div class="donation-qr">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=TNPeeaaFB7M7WQnXw5Zk3U1Q1Jk2JvJqJk" alt="USDT QR Code">
-                        <p>Scan to send USDT</p>
-                    </div>
                 </div>
-            </div>
-            
-            <div class="donation-option">
-                <h3><i class="fab fa-ethereum"></i> Binance Pay</h3>
-                <div class="donation-address-container">
-                    <p>Send BNB or other crypto via Binance Pay ID:</p>
-                    <div class="donation-address">
-                        123456789
-                        <button class="copy-btn" onclick="copyToClipboard('123456789')">Copy</button>
-                    </div>
-                    <div class="donation-qr">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=binancepay://donate/123456789" alt="Binance Pay QR Code">
-                        <p>Scan for Binance Pay</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="donation-option">
-                <h3><i class="fas fa-wallet"></i> Ethereum</h3>
-                <div class="donation-address-container">
-                    <p>Send ETH or ERC20 tokens to:</p>
-                    <div class="donation-address">
-                        0x71C7656EC7ab88b098defB751B7401B5f6d8976F
+                
+                <div class="donation-option">
+                    <h3><i class="fab fa-ethereum"></i> Ethereum</h3>
+                    <div class="donation-address-container">
+                        <div class="donation-address">
+                            0x71C7656EC7ab88b098defB751B7401B5f6d8976F
+                        </div>
                         <button class="copy-btn" onclick="copyToClipboard('0x71C7656EC7ab88b098defB751B7401B5f6d8976F')">Copy</button>
-                    </div>
-                    <div class="donation-qr">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=ethereum:0x71C7656EC7ab88b098defB751B7401B5f6d8976F" alt="Ethereum QR Code">
-                        <p>Scan to send Ethereum</p>
                     </div>
                 </div>
             </div>
@@ -846,10 +789,29 @@
                     <h1 class="gamer-name" id="typing-name"></h1>
                     <p class="gamer-tag">Gamer | Developer | Tech Enthusiast</p>
                     
-                    <!-- Added Donate button in profile -->
-                    <a href="javascript:void(0)" class="social-link donate" onclick="showDonationModal()" style="margin-top: 15px;">
-                        <i class="fas fa-donate"></i>
-                    </a>
+                    <!-- Support Button in Profile -->
+                    <button class="support-btn" onclick="showDonationModal()">
+                        <i class="fas fa-donate"></i> Support Me
+                    </button>
+                    
+                    <!-- Social Links -->
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/hichem.adjimi.2025/" class="social-link facebook" target="_blank">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/hichemajm22/" class="social-link instagram" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link twitter" target="_blank">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://discordapp.com/users/604491708780249109" class="social-link discord" target="_blank">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                        <a href="javascript:void(0)" class="social-link teamspeak" onclick="connectTeamSpeak()">
+                            <i class="fab fa-teamspeak"></i>
+                        </a>
+                    </div>
                 </div>
                 
                 <div class="profile-right">
@@ -893,24 +855,6 @@
                                 <strong>#
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="social-links">
-                        <a href="https://www.facebook.com/hichem.adjimi.2025/" class="social-link facebook" target="_blank">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="https://www.instagram.com/hichemajm22/" class="social-link instagram" target="_blank">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="social-link twitter" target="_blank">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="https://discordapp.com/users/604491708780249109" class="social-link discord" target="_blank">
-                            <i class="fab fa-discord"></i>
-                        </a>
-                        <a href="javascript:void(0)" class="social-link teamspeak" onclick="connectTeamSpeak()">
-                            <i class="fab fa-teamspeak"></i>
-                        </a>
                     </div>
                 </div>
             </div>
@@ -1287,7 +1231,7 @@
             });
 
             // Setup donation modal events
-            document.getElementById('donateBtn').addEventListener('click', showDonationModal);
+            document.querySelector('.support-btn').addEventListener('click', showDonationModal);
             document.getElementById('closeDonation').addEventListener('click', hideDonationModal);
             document.getElementById('donationModal').addEventListener('click', function(e) {
                 if (e.target === this) {
