@@ -12,7 +12,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none !important; /* Disable default cursor */
+            cursor: none !important;
         }
         
         body {
@@ -449,7 +449,7 @@
             50% { opacity: 0; }
         }
 
-        /* Donation Modal Styles - Updated to 500x300 */
+        /* Donation Modal Styles - 500x300 without QR codes */
         .donation-modal {
             position: fixed;
             top: 0;
@@ -730,7 +730,7 @@
         <i class="fas fa-volume-mute"></i>
     </div>
     
-    <!-- Donation Modal - Updated to 500x300 -->
+    <!-- Donation Modal - 500x300 without QR codes -->
     <div class="donation-modal" id="donationModal">
         <div class="donation-content">
             <div class="donation-header">
@@ -793,25 +793,6 @@
                     <button class="support-btn" onclick="showDonationModal()">
                         <i class="fas fa-donate"></i> Support Me
                     </button>
-                    
-                    <!-- Social Links -->
-                    <div class="social-links">
-                        <a href="https://www.facebook.com/hichem.adjimi.2025/" class="social-link facebook" target="_blank">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="https://www.instagram.com/hichemajm22/" class="social-link instagram" target="_blank">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="social-link twitter" target="_blank">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="https://discordapp.com/users/604491708780249109" class="social-link discord" target="_blank">
-                            <i class="fab fa-discord"></i>
-                        </a>
-                        <a href="javascript:void(0)" class="social-link teamspeak" onclick="connectTeamSpeak()">
-                            <i class="fab fa-teamspeak"></i>
-                        </a>
-                    </div>
                 </div>
                 
                 <div class="profile-right">
@@ -855,6 +836,25 @@
                                 <strong>#
                             </div>
                         </div>
+                    </div>
+                    
+                    <!-- Social Links - Back in original position -->
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/hichem.adjimi.2025/" class="social-link facebook" target="_blank">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/hichemajm22/" class="social-link instagram" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link twitter" target="_blank">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://discordapp.com/users/604491708780249109" class="social-link discord" target="_blank">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                        <a href="javascript:void(0)" class="social-link teamspeak" onclick="connectTeamSpeak()">
+                            <i class="fab fa-teamspeak"></i>
+                        </a>
                     </div>
                 </div>
             </div>
