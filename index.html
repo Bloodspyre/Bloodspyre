@@ -314,6 +314,134 @@
             background: rgba(74, 111, 165, 0.2);
             color: #4A6FA5;
         }
+
+        /* Donation Button */
+        .donation-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%; /* Make it span full width below social links */
+            padding: 12px 0;
+            margin-top: 20px;
+            border-radius: 12px;
+            background: linear-gradient(90deg, #4CAF50, #2E7D32); /* Green gradient */
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer; /* Enable cursor for this button */
+            border: none;
+            box-shadow: 0 4px 10px rgba(0, 128, 0, 0.2);
+            transform: translateZ(10px);
+        }
+
+        .donation-button:hover {
+            background: linear-gradient(90deg, #388E3C, #1B5E20);
+            transform: translateY(-3px) translateZ(20px);
+            box-shadow: 0 6px 15px rgba(0, 128, 0, 0.3);
+        }
+
+        /* Donation Modal */
+        .donation-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10001;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .donation-modal-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .donation-modal-content {
+            background: rgba(10, 15, 25, 0.9);
+            border-radius: 16px;
+            padding: 30px;
+            width: 400px; /* Fixed width */
+            height: 250px; /* Adjusted height for content */
+            box-shadow: 0 10px 30px rgba(0, 89, 255, 0.2);
+            border: 1px solid rgba(100, 150, 255, 0.3);
+            text-align: center;
+            transform: translateY(-20px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .donation-modal-overlay.visible .donation-modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .donation-modal-content h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            color: #64b5f6;
+            margin-bottom: 20px;
+            text-shadow: 0 0 5px rgba(100, 181, 246, 0.5);
+        }
+
+        .donation-info p {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            color: #e0e0e0;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .donation-info strong {
+            color: #ffffff;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .donation-info .copy-button {
+            background: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background-color 0.2s ease;
+        }
+
+        .donation-info .copy-button:hover {
+            background: #1565c0;
+        }
+        
+        .donation-modal-close {
+            background: #d32f2f;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            align-self: center; /* Center the close button */
+        }
+
+        .donation-modal-close:hover {
+            background: #c62828;
+        }
         
         .audio-control {
             position: fixed;
@@ -483,6 +611,12 @@
             .profile-description {
                 max-height: 120px;
             }
+
+            .donation-modal-content {
+                width: 90%; /* Make modal responsive on smaller screens */
+                height: auto;
+                min-height: 200px;
+            }
         }
     </style>
 </head>
@@ -544,25 +678,25 @@
                         <div class="description-item">
                             <span class="bullet">◉</span>
                             <div class="description-text">
-                                <strong>#</strong> #
+                                <strong>About Me:</strong> I'm Bloodspyre, a dedicated gamer and aspiring developer with over a decade of experience in the gaming world. I love exploring new technologies and building cool projects.
                             </div>
                         </div>
                         <div class="description-item">
                             <span class="bullet">◉</span>
                             <div class="description-text">
-                                <strong>#</strong> #
+                                <strong>Passions:</strong> My main passions are competitive gaming, especially FPS and strategy games, as well as coding and experimenting with web development.
                             </div>
                         </div>
                         <div class="description-item">
                             <span class="bullet">◉</span>
                             <div class="description-text">
-                                <strong>#</strong> #
+                                <strong>Skills:</strong> HTML, CSS, JavaScript, Python, Game Development (basic). Always learning new things!
                             </div>
                         </div>
                         <div class="description-item">
                             <span class="bullet">◉</span>
                             <div class="description-text">
-                                <strong>#
+                                <strong>Availability:</strong> I'm always around, ready to game or help out with tech stuff. Feel free to connect!
                             </div>
                         </div>
                     </div>
@@ -584,8 +718,35 @@
                             <i class="fab fa-teamspeak"></i>
                         </a>
                     </div>
+                    <button class="donation-button" id="openDonationModal">
+                        <i class="fas fa-hand-holding-usd"></i> Support Me
+                    </button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="donation-modal-overlay" id="donationModalOverlay">
+        <div class="donation-modal-content">
+            <h2>Support Bloodspyre</h2>
+            <div class="donation-info">
+                <p>
+                    <img src="https://img.icons8.com/color/24/000000/bitcoin.png" alt="Bitcoin Icon"/>
+                    <strong>Bitcoin ID:</strong> <span id="bitcoinId">your_bitcoin_address_here</span> 
+                    <button class="copy-button" onclick="copyToClipboard('bitcoinId')">Copy</button>
+                </p>
+                <p>
+                    <img src="https://img.icons8.com/color/24/000000/tether--v2.png" alt="USDT Icon"/>
+                    <strong>USDT ID:</strong> <span id="usdtId">your_usdt_address_here</span>
+                    <button class="copy-button" onclick="copyToClipboard('usdtId')">Copy</button>
+                </p>
+                <p>
+                    <img src="https://img.icons8.com/color/24/000000/binance.png" alt="Binance Icon"/>
+                    <strong>Binance ID:</strong> <span id="binanceId">your_binance_id_here</span>
+                    <button class="copy-button" onclick="copyToClipboard('binanceId')">Copy</button>
+                </p>
+            </div>
+            <button class="donation-modal-close" id="closeDonationModal">Close</button>
         </div>
     </div>
     
@@ -676,10 +837,21 @@
                 
                 // Random horizontal movement
                 const horizontalMovement = Math.random() * 100 - 50;
-                snow.style.transform = `translateX(${horizontalMovement}px)`;
+                snow.style.setProperty('--horizontal-movement', `${horizontalMovement}px`); // Use custom property
                 
                 snowContainer.appendChild(snow);
             }
+
+            // Update @keyframes for horizontal movement
+            const style = document.createElement('style');
+            style.innerHTML += `
+                @keyframes fall {
+                    to {
+                        transform: translateY(100vh) translateX(var(--horizontal-movement, 0px)) rotate(360deg);
+                    }
+                }
+            `;
+            document.head.appendChild(style);
         }
         
         // Floating particles effect
@@ -704,31 +876,34 @@
                 
                 // Animation
                 const duration = Math.random() * 30 + 15;
-                particle.style.animation = `float ${duration}s linear infinite`;
+                const translateX = Math.random() * 40 - 20;
+                const translateY = Math.random() * 40 - 20;
+
+                particle.style.animation = `float-${i} ${duration}s linear infinite`; // Unique animation name
                 particle.style.animationDelay = Math.random() * 10 + 's';
                 
                 particlesContainer.appendChild(particle);
+
+                // Dynamically add keyframes for each particle for more varied movement
+                const style = document.createElement('style');
+                style.innerHTML = `
+                    @keyframes float-${i} {
+                        0% {
+                            transform: translate(0, 0) rotate(0deg);
+                            opacity: 0.5;
+                        }
+                        50% {
+                            transform: translate(${translateX}px, ${translateY}px) rotate(180deg);
+                            opacity: 0.3;
+                        }
+                        100% {
+                            transform: translate(0, 0) rotate(360deg);
+                            opacity: 0.5;
+                        }
+                    }
+                `;
+                document.head.appendChild(style);
             }
-            
-            // Add CSS for particle animation
-            const style = document.createElement('style');
-            style.innerHTML = `
-                @keyframes float {
-                    0% {
-                        transform: translate(0, 0) rotate(0deg);
-                        opacity: 0.5;
-                    }
-                    50% {
-                        transform: translate(${Math.random() * 40 - 20}px, ${Math.random() * 40 - 20}px) rotate(180deg);
-                        opacity: 0.3;
-                    }
-                    100% {
-                        transform: translate(0, 0) rotate(360deg);
-                        opacity: 0.5;
-                    }
-                }
-            `;
-            document.head.appendChild(style);
         }
         
         // Custom scope cursor setup
@@ -909,6 +1084,36 @@
                 
                 type();
             }, delay);
+        }
+        
+        // Donation modal functionality
+        const openDonationModalBtn = document.getElementById('openDonationModal');
+        const closeDonationModalBtn = document.getElementById('closeDonationModal');
+        const donationModalOverlay = document.getElementById('donationModalOverlay');
+
+        openDonationModalBtn.addEventListener('click', () => {
+            donationModalOverlay.classList.add('visible');
+        });
+
+        closeDonationModalBtn.addEventListener('click', () => {
+            donationModalOverlay.classList.remove('visible');
+        });
+
+        // Close modal if clicked outside
+        donationModalOverlay.addEventListener('click', (e) => {
+            if (e.target === donationModalOverlay) {
+                donationModalOverlay.classList.remove('visible');
+            }
+        });
+
+        // Function to copy text to clipboard
+        function copyToClipboard(elementId) {
+            const textToCopy = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                alert('Copied to clipboard: ' + textToCopy);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
         }
         
         // Initialize effects when page loads
