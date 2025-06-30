@@ -322,6 +322,11 @@
             background: rgba(247, 147, 26, 0.2);
             color: #F7931A;
         }
+
+        .social-link.binance:hover {
+            background: rgba(243, 186, 47, 0.2);
+            color: #F3BA2F;
+        }
         
         .audio-control {
             position: fixed;
@@ -750,17 +755,17 @@
                 </div>
                 
                 <div class="donation-option">
-                    <h3><i class="fas fa-coins"></i> USDT (TRC20)</h3>
+                    <h3><i class="fab fa-binance"></i> Binance (BEP20)</h3>
                     <div class="donation-address-container">
                         <div class="donation-address">
-                            TNPeeaaFB7M7WQnXw5Zk3U1Q1Jk2JvJqJk
+                            0x71C7656EC7ab88b098defB751B7401B5f6d8976F
                         </div>
-                        <button class="copy-btn" onclick="copyToClipboard('TNPeeaaFB7M7WQnXw5Zk3U1Q1Jk2JvJqJk')">Copy</button>
+                        <button class="copy-btn" onclick="copyToClipboard('0x71C7656EC7ab88b098defB751B7401B5f6d8976F')">Copy</button>
                     </div>
                 </div>
                 
                 <div class="donation-option">
-                    <h3><i class="fab fa-binance"></i> Ethereum</h3>
+                    <h3><i class="fab fa-ethereum"></i> Ethereum</h3>
                     <div class="donation-address-container">
                         <div class="donation-address">
                             0x71C7656EC7ab88b098defB751B7401B5f6d8976F
@@ -854,6 +859,9 @@
                         </a>
                         <a href="javascript:void(0)" class="social-link teamspeak" onclick="connectTeamSpeak()">
                             <i class="fab fa-teamspeak"></i>
+                        </a>
+                        <a href="javascript:void(0)" class="social-link binance" onclick="showDonationModal()">
+                            <i class="fab fa-binance"></i>
                         </a>
                     </div>
                 </div>
