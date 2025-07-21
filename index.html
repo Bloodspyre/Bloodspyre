@@ -1021,11 +1021,11 @@
         
         // TeamSpeak connection function
         function connectTeamSpeak() {
-            const tsAddress = "ts3server://Skyness";
+            const tsAddress = "ts3server://sgx";
             window.location.href = tsAddress;
             
             setTimeout(() => {
-                window.location.href = `teamspeak://Skyness?port=12673`;
+                window.location.href = `teamspeak://sgx?port=9987`;
             }, 100);
             
             setTimeout(() => {
@@ -1048,7 +1048,7 @@
             notification.style.transition = 'all 0.3s ease';
             notification.innerHTML = `
                 <p style="margin-bottom: 8px; font-weight: 600;">Connecting to TeamSpeak server:</p>
-                <p style="font-family: monospace;">Skyness</p>
+                <p style="font-family: monospace;">StarGamerX</p>
             `;
             document.body.appendChild(notification);
             
