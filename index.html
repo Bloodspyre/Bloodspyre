@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@Hichemajm</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-        <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
@@ -53,7 +52,7 @@
         }
 
         /* Enable cursor in donation modal */
-        .donation-modal * {
+        .donation-modal *, .open-link-btn {
             cursor: auto !important;
         }
         
@@ -240,32 +239,65 @@
             background-color: rgba(100, 150, 255, 0.3);
             border-radius: 3px;
         }
-        
-        .profile-description p {
-            font-size: 0.9rem;
-            line-height: 1.5;
-            color: #d0d0d0;
-            margin-bottom: 10px;
-        }
-        
-        .profile-description strong {
-            color: #64b5f6;
-            font-weight: 600;
-        }
-        
-        .description-item {
+
+        /* --- NEW TEMPLATE LINK STYLES START --- */
+        .template-item {
             display: flex;
-            align-items: flex-start;
-            margin-bottom: 8px;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 5px;
+            margin-bottom: 5px;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
         }
-        
-        .bullet {
+
+        .template-item:hover {
+            background-color: rgba(100, 150, 255, 0.1);
+        }
+
+        .template-name {
+            font-weight: 600;
+            color: #e0e0e0;
+            transition: color 0.3s ease;
+            user-select: none; /* Prevent text selection */
+        }
+
+        .template-item:hover .template-name {
             color: #64b5f6;
-            margin-right: 8px;
-            font-size: 0.7rem;
-            line-height: 1.5;
-            margin-top: 3px;
         }
+
+        .open-link-btn {
+            background: rgba(100, 150, 255, 0.2);
+            border: none;
+            color: #64b5f6;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(10px);
+        }
+
+        .open-link-btn.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(0);
+        }
+
+        .open-link-btn:hover {
+            background: rgba(100, 150, 255, 0.3);
+            color: #ffffff;
+        }
+
+        .open-link-btn i {
+            margin-right: 5px;
+        }
+        /* --- NEW TEMPLATE LINK STYLES END --- */
         
         .social-links {
             display: flex;
@@ -746,7 +778,6 @@
         <i class="fas fa-volume-mute"></i>
     </div>
     
-    <!-- Donation Modal - 500x300 without QR codes -->
     <div class="donation-modal" id="donationModal">
         <div class="donation-content">
             <div class="donation-header">
@@ -776,19 +807,18 @@
                 </div>
                 
                 <div class="donation-option">
-    <h3><i class="fab fa-btc"></i> Binance Pay ID</h3>
-    <div class="donation-address-container">
-        <div class="donation-address">
-            567160545
-        </div>
-        <button class="copy-btn" onclick="copyToClipboard('567160545')">Copy</button>
-    </div>
-</div>
+                    <h3><i class="fab fa-btc"></i> Binance Pay ID</h3>
+                    <div class="donation-address-container">
+                        <div class="donation-address">
+                            567160545
+                        </div>
+                        <button class="copy-btn" onclick="copyToClipboard('567160545')">Copy</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Copy Notification -->
     <div class="copy-notification" id="copyNotification">
         Address copied to clipboard!
     </div>
@@ -805,7 +835,6 @@
                     <h1 class="gamer-name" id="typing-name"></h1>
                     <p class="gamer-tag">Gamer | Developer | Tech Enthusiast</p>
                     
-                    <!-- Support Button in Profile -->
                     <button class="support-btn" onclick="showDonationModal()">
                         <i class="fas fa-donate"></i> Support Me
                     </button>
@@ -828,33 +857,32 @@
                     </div>
                     
                     <div class="profile-description">
-                        <div class="description-item">
-                            <span class="bullet">◉</span>
-                            <div class="description-text">
-                                <strong>#</strong> #
-                            </div>
+                        <div class="template-item">
+                            <span class="template-name">Template 1: Gumroad</span>
+                            <a href="https://your-link-here.com" target="_blank" class="open-link-btn">
+                                <i class="fas fa-external-link-alt"></i> Open
+                            </a>
                         </div>
-                        <div class="description-item">
-                            <span class="bullet">◉</span>
-                            <div class="description-text">
-                                <strong>#</strong> #
-                            </div>
+                        <div class="template-item">
+                            <span class="template-name">Template 2: E-commerce Site</span>
+                            <a href="https://your-link-here.com" target="_blank" class="open-link-btn">
+                                <i class="fas fa-external-link-alt"></i> Open
+                            </a>
                         </div>
-                        <div class="description-item">
-                            <span class="bullet">◉</span>
-                            <div class="description-text">
-                                <strong>#</strong> #
-                            </div>
+                        <div class="template-item">
+                            <span class="template-name">Template 3: Interactive Gallery</span>
+                            <a href="https://your-link-here.com" target="_blank" class="open-link-btn">
+                                <i class="fas fa-external-link-alt"></i> Open
+                            </a>
                         </div>
-                        <div class="description-item">
-                            <span class="bullet">◉</span>
-                            <div class="description-text">
-                                <strong>#
-                            </div>
+                         <div class="template-item">
+                            <span class="template-name">Template 4: Coming Soon...</span>
+                            <a href="#" target="_blank" class="open-link-btn">
+                                <i class="fas fa-external-link-alt"></i> Open
+                            </a>
                         </div>
+                        <p style="text-align:center; font-size: 0.8rem; color: #aaa; margin-top: 10px;">Click a name to reveal the link.</p>
                     </div>
-                    
-                    <!-- Social Links - Back in original position -->
                     <div class="social-links">
                         <a href="https://www.facebook.com/hichem.adjimi.2025/" class="social-link facebook" target="_blank">
                             <i class="fab fa-facebook-f"></i>
@@ -1254,6 +1282,33 @@
                     hideDonationModal();
                 }
             });
+
+            // --- NEW TEMPLATE LINK SCRIPT START ---
+            function setupTemplateLinks() {
+                const templateItems = document.querySelectorAll('.template-item');
+
+                templateItems.forEach(item => {
+                    const name = item.querySelector('.template-name');
+                    const button = item.querySelector('.open-link-btn');
+
+                    name.addEventListener('click', () => {
+                        // Check if the current button is already visible
+                        const isAlreadyVisible = button.classList.contains('visible');
+
+                        // Hide all other buttons
+                        document.querySelectorAll('.open-link-btn').forEach(btn => {
+                            btn.classList.remove('visible');
+                        });
+
+                        // If it wasn't already visible, show it. Otherwise, clicking again hides it.
+                        if (!isAlreadyVisible) {
+                            button.classList.add('visible');
+                        }
+                    });
+                });
+            }
+            setupTemplateLinks();
+            // --- NEW TEMPLATE LINK SCRIPT END ---
         };
         
         document.addEventListener('selectstart', function(e) {
@@ -1265,8 +1320,7 @@
         });
     </script>
 
- <!--Start of Tawk.to Script-->
-<script type="text/javascript">
+ <script type="text/javascript">
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
 (function(){
 var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
@@ -1277,9 +1331,5 @@ s1.setAttribute('crossorigin','*');
 s0.parentNode.insertBefore(s1,s0);
 })();
 </script>
-<!--End of Tawk.to Script-->   
 </body>
 </html>
-
-
-
